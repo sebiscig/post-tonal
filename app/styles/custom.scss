@@ -1,0 +1,191 @@
+//@import "font-awesome";
+
+/* variables */
+/*
+
+*/
+$iu-crimson: #7D110C;
+$uoft-blue: #002f65;
+$institution-color: $uoft-blue;
+
+
+$text-hover: lighten($institution-color, 60%);
+$hover: lighten($institution-color, 10%);
+$active: darken($institution-color, 10%);
+$focus: darken($institution-color, 5%);
+
+/* universal */
+body {
+  padding-top: 60px;
+}
+
+section {
+  overflow: auto;
+}
+
+textarea {
+  resize: vertical;
+}
+
+a:not(.edit-detail):not(.app-btn):not(.header-link) {
+  color: $institution-color;
+  &:hover {
+    color: $institution-color;
+  }
+  &:active {
+    color: $active;
+  }
+}
+
+
+.center {
+  text-align: center;
+}
+
+.center h1 {
+  margin-bottom: 10px;
+}
+
+.app-btn, .app-btn:disabled {
+  @extend .btn;
+  @extend .btn-primary;
+  background: $institution-color;
+  border: 1px solid $active;
+  &:hover {
+    background: $hover;
+    border: 1px solid $institution-color;
+  }
+  &:focus {
+    background: $focus;
+  }
+  &:active:focus {
+    background: $institution-color;
+  }
+  &:active, &:hover:active {
+    background: $institution-color;
+  }
+}
+
+.app-btn-sm {
+  @extend .app-btn;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+
+
+
+/* header */
+
+header#app-header {
+	//background: #337ab7;
+  background: $institution-color;
+}
+
+header a {
+  color: white !important;
+  &:hover {
+    text-decoration: none !important;
+  }
+}
+
+#logo {
+  float: left;
+  margin-right: 10px;
+  font-size: 1.7em;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  padding-top: 9px;
+  font-weight: bold;
+}
+
+#logo:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* footer */
+
+footer {
+  margin-top: 45px;
+  padding-top: 5px;
+  border-top: 1px solid #eaeaea;
+  color: #777;
+}
+
+footer a {
+  color: #555;
+}
+
+footer a:hover {
+  color: #222;
+}
+
+footer small {
+  float: left;
+}
+
+footer ul {
+  float: right;
+  list-style: none;
+}
+
+footer ul li {
+  float: left;
+  margin-left: 15px;
+}
+
+/*forms*/
+input#row {
+  width: 170px;
+}
+
+/*serial-stuff*/
+#serial-stuff {
+  display: none;
+  //background-color: purple;
+  //height: 150px;
+  //width: 150px;
+}
+
+#serial-buttons {
+  padding: 1em 0;
+}
+
+div#twelve-by-matrix {
+  padding: .85em 1.5em;
+  width: auto;
+  background-color: white;
+  table {
+    width:325px;
+    border-collapse:collapse;
+    background-color: white;
+
+    tr {
+      text-align:center;
+      vertical-align:middle;
+      &.colored {
+        background-color: lightgrey;
+      }
+    }
+    td {
+      border-left:1px solid black;
+      text-align:center;
+      vertical-align:middle;
+    }
+    tr.noborder, td.noborder {
+      border-top:none;
+      border-bottom: none;
+      border-left:none;
+    }
+
+    tr.topborder, td.topborder {
+      border-top:1px solid black;
+      border-bottom: none;
+      text-align:center;
+      vertical-align:middle;
+    }
+  }
+}
