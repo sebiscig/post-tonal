@@ -74,6 +74,12 @@ a:not(.edit-detail):not(.app-btn):not(.header-link) {
   border-radius: 3px;
 }
 
+span.bold {
+color:black;
+font-style:normal;
+font-weight:bold;
+}
+
 
 
 /* header */
@@ -143,7 +149,7 @@ input#row {
 }
 
 /*serial-stuff*/
-#serial-stuff {
+#serial-stuff, #twelve-by-matrix, #hex-areas {
   display: none;
   //background-color: purple;
   //height: 150px;
@@ -154,10 +160,17 @@ input#row {
   padding: 1em 0;
 }
 
-div#twelve-by-matrix {
+button.btm-close {
+  float:right;
+  margin-top: 1em;
+}
+
+div.serial-display {
   padding: .85em 1.5em;
   width: auto;
   background-color: white;
+  float: left;
+  margin-right: 1em;
   table {
     width:325px;
     border-collapse:collapse;

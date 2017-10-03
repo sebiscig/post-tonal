@@ -2,8 +2,27 @@
 {{input id="row" placeholder="E.g., 219t5340876e"}}
 <div id="serial-buttons">
   <button class="app-btn" {{action 'twelveByMatrix'}}>Matrix</button>
+  &emsp;
+  <button class="app-btn" {{action 'hexAreas'}}>Hexachordal Areas</button>
 </div>
 <div id="serial-stuff">
-  <div id="twelve-by-matrix" class="container">
+
+  <div id="twelve-by-matrix" class="container serial-display">
+    <button type="button" class="close serial-close" {{action 'hide' 'twelve-by-matrix'}}>
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <div id="twelve-by-target"></div>
+    <button type="button" class="btn btn-default serial-close btm-close" {{action 'hide' 'twelve-by-matrix'}}>Close</button>
   </div>
+
+
+
+  <div id="hex-areas" class="container serial-display">
+    <button type="button" class="close serial-close" {{action 'hide' 'hex-areas'}}>
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <div id="hex-target"></div>
+    <button type="button" class="btn btn-default serial-close btm-close" {{action 'hide' 'hex-areas'}}>Close</button>
+  </div>
+
 </div>
