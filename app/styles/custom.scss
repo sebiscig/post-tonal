@@ -200,5 +200,15 @@ div.serial-display {
       text-align:center;
       vertical-align:middle;
     }
+
+    td.highlight {
+      font-weight: 900;
+    }
+    td.other {
+      background-color: yellow;
+    }
+    td.clickable {
+      cursor: pointer;
+    }
   }
 }

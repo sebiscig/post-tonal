@@ -15,8 +15,6 @@ var make_matrix = function () {
 		}
 
     return ret_matrix;
-
-
 };
 
 /*=================================================================*/
@@ -56,7 +54,7 @@ var matrix_table_maker = function (matrix_arr_in) {
 		ret_table += trOpening +"<td class=" + '"' + "noborder" + '"' + ">P<sub>" + pcint_to_char(matrix_arr_in[i][0]) + "</sub></td>";
 		for (var j = 0; j < 12; j++)
 		{
-			ret_table += "<td>" + pcint_to_char(matrix_arr_in[i][j]) + "</td> ";
+			ret_table += '<td class="clickable" row="' +i.toString() + '" column="' + j.toString() + '">' + pcint_to_char(matrix_arr_in[i][j]) + "</td> ";
 		}
 		ret_table += "</tr>";
 	}
@@ -64,7 +62,7 @@ var matrix_table_maker = function (matrix_arr_in) {
 	ret_table += "<tr><td class=" + '"' + "noborder" + '"' + ">P<sub>" + pcint_to_char(matrix_arr_in[i][0]) + "</sub></td>";
 	for (var j = 0; j < 12; j++)
 	{
-		ret_table += "<td>" + pcint_to_char(matrix_arr_in[11][j]) + "</td> ";
+		ret_table += '<td row="11" class="clickable" column="' + j.toString()+'">' + pcint_to_char(matrix_arr_in[11][j]) + "</td> ";
 	}
 	ret_table += "</tr></table>";
 
@@ -409,6 +407,133 @@ var make_table_row = function (form_in, row_in) {
 }
 
 /*=================================================================*/
+var getAttribute = function (boldedCellsIn) {
+	var theColumn = boldedCellsIn.first().attr('column');
+	var theRow = boldedCellsIn.first().attr('row');
+	var colCount = boldedCellsIn.filter(function () {
+		return $(this).attr('column') == theColumn;
+	}).length;
+	var rowCount = boldedCellsIn.filter(function () {
+		return $(this).attr('row') == theRow;
+	}).length;
+	return colCount > rowCount ? 'column' : 'row';
+};
+
+/*=================================================================*/
+
+var getLocationsOfSegment = function (rowIn, nowBoldedIn, indexIn, sortedStringIn) {
+	var ops = [];
+	var tempString = '';
+	rowIn.each(function () {
+		tempString += $(this).text();
+	});
+	for (var i = 0; i < 13 - nowBoldedIn.length; i++) {
+		var segment = '';
+		for (var j = 0; j < nowBoldedIn.length; j++) {
+			segment +=  tempString[i+j];
+			segment = segment.split('').sort().join('');
+			if (segment == sortedStringIn) {
+				ops.push([indexIn.toString(), i.toString()]);
+			}
+		}
+	}
+	return ops;
+};
+
+/*=================================================================*/
+
+var addTheClass = function (opsArrayIn, nowBoldedIn, attributeIn, otherAttributeIn, classToAdd) {
+	for (var j = 0; j < opsArrayIn.length; j++) {
+		var array = opsArrayIn[j];
+		for (var i = parseInt(array[1]); i < parseInt(array[1]) + nowBoldedIn.length; i++) {
+			var entry = $("td").filter(function() {
+				return (($(this).attr(attributeIn) == array[0]) && ($(this).attr(otherAttributeIn) == i.toString()));
+			});
+			entry.addClass(classToAdd);
+		}
+	}
+};
+
+/*=================================================================*/
+
+function tableHandler()  {
+	$("#twelve-by-matrix td.clickable").on('click', function() {
+		var boldedCells = $("td").filter(function (){
+			return $(this).css('font-weight') == 'bold';
+		});
+		var that = $(this);
+		if (boldedCells.length == 0) {
+			$(this).css('font-weight', 'bold');
+		} else if (boldedCells.length == 1) {
+			var currentColumn = parseInt($(this).attr('column'));
+			var firstColumn = parseInt(boldedCells.first().attr('column'));
+			var currentRow =  parseInt($(this).attr('row'));
+			var firstRow = parseInt(boldedCells.first().attr('row'));
+			var weight = $(this).css('font-weight') == 'bold' ? 'normal' : 'bold';
+			if ( ((currentColumn == firstColumn) && (Math.abs(currentRow - firstRow) == 1)) || ((currentRow == firstRow) && (Math.abs(currentColumn - firstColumn) == 1))) {
+				$(this).css('font-weight', 'bold');
+			}
+		}	else {
+			var attribute = getAttribute (boldedCells);
+			var otherAttribute = attribute == 'column' ? 'row' : 'column';
+			var clickedAttr = parseInt($(this).attr(attribute));
+			var clickedOtherAttr = parseInt($(this).attr(otherAttribute));
+			if ($(this).attr(attribute) != boldedCells.first().attr(attribute)) {
+				return;
+			} else {
+				var weight = $(this).css('font-weight') == 'bold' ? 'normal' : 'bold';
+				boldedCells.each(function() {
+					var tempAttr = parseInt($(this).attr(attribute));
+					var tempOtherAttr = parseInt($(this).attr(otherAttribute));
+					if ((clickedAttr == tempAttr) && (Math.abs(tempOtherAttr - clickedOtherAttr) == 1)) {
+						that.css('font-weight', 'bold');
+					}
+				});
+			}
+		}
+		var nowBolded = $("td").filter(function() {
+			return $(this).css('font-weight') == 'bold';
+		});
+		var string = '';
+		nowBolded.each(function() {
+			string += $(this).text();
+		});
+		var sortedString = string.split('').sort().join('');
+
+		if (nowBolded.length > 1) {
+			var attribute = getAttribute (nowBolded);
+			var otherAttribute = attribute == 'column' ? 'row' : 'column';
+			var attributeValue = nowBolded.first().attr(attribute);
+			var attributeOps = [];
+			var otherAttributeOps = [];
+			for (var i = 0; i < 12; i++) {
+				var temp = $("td").filter(function() {
+					return $(this).attr(attribute) == i.toString();
+				});
+
+				var theArray = getLocationsOfSegment (temp, nowBolded, i, sortedString);
+				if (theArray.length > 0) {
+					attributeOps = attributeOps.concat(theArray);
+				}
+
+				var tempOther = $("td").filter(function() {
+					return $(this).attr(otherAttribute) == i.toString();
+				});
+
+				var theOtherArray = getLocationsOfSegment (tempOther, nowBolded, i, sortedString);
+				if (theOtherArray.length > 0) {
+					otherAttributeOps = otherAttributeOps.concat(theOtherArray);
+				}
+			}
+			$("td.highlight").removeClass('highlight');
+			$('td.other').removeClass('other');
+			addTheClass(attributeOps, nowBolded, attribute, otherAttribute, 'highlight');
+			addTheClass(otherAttributeOps, nowBolded, otherAttribute, attribute, 'other');
+		}
+	});
+};
+
+/*=================================================================*/
 
 export default Ember.Component.extend({
   serialStuffIsVisible: false,
@@ -425,6 +550,7 @@ export default Ember.Component.extend({
 			this.set('twelveByMatrixIsVisible', true);
 			this.$("#twelve-by-matrix").css('display', 'inline-block')
 			this.$("#twelve-by-target").html(matrix);
+			tableHandler();
     },
 		hexAreas() {
 			var row = this.$("#row").val();
