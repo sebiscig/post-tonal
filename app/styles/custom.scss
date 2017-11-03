@@ -36,7 +36,15 @@ a:not(.edit-detail):not(.app-btn):not(.header-link) {
     color: $active;
   }
 }
+a.tool-tip {
 
+  font-size: 1.5em;
+  color: $institution-color;
+  &:hover, &:active, &:focus {
+    cursor: pointer;
+    opacity: .75;
+  }
+}
 
 .center {
   text-align: center;
@@ -149,14 +157,14 @@ input#row {
 }
 
 /*serial-stuff*/
-#serial-stuff, #twelve-by-matrix, #hex-areas {
+#serial-stuff, #twelve-by-matrix, #hex-areas, #set-theoty-stuff, #prime-form-list {
   display: none;
   //background-color: purple;
   //height: 150px;
   //width: 150px;
 }
 
-#serial-buttons {
+#serial-buttons, #set-theory-buttons {
   padding: 1em 0;
 }
 
@@ -211,4 +219,33 @@ div.serial-display {
       cursor: pointer;
     }
   }
+}
+/* set-theory stuff*/
+
+span.members {
+  display: none;
+}
+span.scRep {
+  @extend .app-btn;
+}
+span.primeForm {
+  display: inline-block;
+  padding-left: 1em;
+  vertical-align: top;
+}
+span.theMembers {
+  display: inline-block;
+}
+h3 {
+  padding: 0;
+  border-bottom: 1px solid black;
+}
+div.aRow {
+  padding: .25em 0;
+}
+a.expand {
+  @extend .tool-tip;
+  font-size: 1em;
+  //margin-bottom: .25em;
+  //margin-left: 1em;
 }

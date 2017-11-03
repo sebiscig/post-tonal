@@ -8,6 +8,7 @@ const Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route('twelve-tone');
+  this.route('pc-sets');
 });
 
 export default Router;

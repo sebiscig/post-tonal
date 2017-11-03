@@ -1,4 +1,5 @@
 {{yield}}
+
 {{input id="row" placeholder="E.g., 219t5340876e"}}
 <div id="serial-buttons">
   <button class="app-btn" {{action 'twelveByMatrix'}}>Matrix</button>
@@ -8,18 +9,41 @@
 <div id="serial-stuff">
 
   <div id="twelve-by-matrix" class="container serial-display">
-    <button type="button" class="close serial-close" {{action 'hide' 'twelve-by-matrix'}}>
-      <span aria-hidden="true">&times;</span>
-    </button>
-    <div id="twelve-by-target"></div>
-    <button type="button" class="btn btn-default serial-close btm-close" {{action 'hide' 'twelve-by-matrix'}}>Close</button>
+
+
+  <!-- Modal -->
+  <div id="matrix-tip" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">{{fa-icon "times"}}</button>
+          <h4 class="modal-title">Matrix Tip: Segmental Invariants</h4>
+        </div>
+        <div class="modal-body">
+          <p>Click on successive pitch classes of a row to highlight segmental invariants.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
   </div>
+    <button type="button" class="close serial-close" {{action 'hide' 'twelve-by-matrix'}}>
+      <span aria-hidden="true">{{fa-icon "times"}}</span>
+    </button>
 
+    <div id="twelve-by-target"></div>
 
+    <button type="button" class="btn btn-default serial-close btm-close" {{action 'hide' 'twelve-by-matrix'}}>Close</button><br />
+    <a class="tool-tip" data-toggle="modal" data-target="#matrix-tip">{{fa-icon "info-circle"}}</a>
+  </div>
 
   <div id="hex-areas" class="container serial-display">
     <button type="button" class="close serial-close" {{action 'hide' 'hex-areas'}}>
-      <span aria-hidden="true">&times;</span>
+      <span aria-hidden="true">{{fa-icon "times"}}</span>
     </button>
     <div id="hex-target"></div>
     <button type="button" class="btn btn-default serial-close btm-close" {{action 'hide' 'hex-areas'}}>Close</button>

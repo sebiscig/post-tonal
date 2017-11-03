@@ -1,0 +1,40 @@
+{{yield}}
+<div id="set-theory-buttons">
+  <button class="app-btn" {{action 'primeFormList'}}>Prime Form List</button>
+  &emsp;
+
+</div>
+<div class="container">
+  <div id="set-theory-stuff">
+
+    <div id="prime-form-list" class="container serial-display">
+    <!-- Modal -->
+    <div id="prime-form-list-tip" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">{{fa-icon "close"}}</button>
+            <h4 class="modal-title">Double-Check Your Work</h4>
+          </div>
+          <div class="modal-body">
+            <p>Click on a prime form to see the complete list of pitch-class sets it represents. You should see your starting set in that list.</p>
+            <p>Note that the pitch classes of each set are in <em>numerical order</em> (i.e., not necessarily normal order).</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+      <button type="button" class="close serial-close" {{action 'hide' 'prime-form-list'}}>
+        <span aria-hidden="true">{{fa-icon "times"}}</span>
+      </button><br />
+      <div id="prime-form-list-target"></div>
+
+      <button type="button" class="btn btn-default serial-close btm-close" {{action 'hide' 'prime-form-list'}}>Close</button><br />
+
+    </div>
+</div>
+</div>

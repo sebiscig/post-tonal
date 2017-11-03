@@ -7,7 +7,7 @@ module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
     // Add options here
   });
-
+  app.import('bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js');
   // Use `app.import` to add additional libraries to the generated
   // output files.
   //
