@@ -458,9 +458,11 @@ var addTheClass = function (opsArrayIn, nowBoldedIn, attributeIn, otherAttribute
 
 function tableHandler()  {
 	$("#twelve-by-matrix td.clickable").on('click', function() {
+
 		var boldedCells = $("td").filter(function (){
-			return $(this).css('font-weight') == 'bold';
+			return ($(this).css('font-weight') == 700) || ($(this).css('font-weight') == 'boold');
 		});
+
 		var that = $(this);
 		if (boldedCells.length == 0) {
 			$(this).css('font-weight', 'bold');
@@ -474,6 +476,7 @@ function tableHandler()  {
 				$(this).css('font-weight', 'bold');
 			}
 		}	else {
+
 			var attribute = getAttribute (boldedCells);
 			var otherAttribute = attribute == 'column' ? 'row' : 'column';
 			var clickedAttr = parseInt($(this).attr(attribute));
@@ -492,7 +495,7 @@ function tableHandler()  {
 			}
 		}
 		var nowBolded = $("td").filter(function() {
-			return $(this).css('font-weight') == 'bold';
+			return ($(this).css('font-weight') == 700) || ($(this).css('font-weight') == 'boold');
 		});
 		var string = '';
 		nowBolded.each(function() {
