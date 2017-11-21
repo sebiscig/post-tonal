@@ -460,20 +460,19 @@ function tableHandler()  {
 	$("#twelve-by-matrix td.clickable").on('click', function() {
 
 		var boldedCells = $("td").filter(function (){
-			return ($(this).css('font-weight') == 700) || ($(this).css('font-weight') == 'boold');
+			return $(this).hasClass('bold');
 		});
 
 		var that = $(this);
 		if (boldedCells.length == 0) {
-			$(this).css('font-weight', 'bold');
+			$(this).addClass('bold');
 		} else if (boldedCells.length == 1) {
 			var currentColumn = parseInt($(this).attr('column'));
 			var firstColumn = parseInt(boldedCells.first().attr('column'));
 			var currentRow =  parseInt($(this).attr('row'));
 			var firstRow = parseInt(boldedCells.first().attr('row'));
-			var weight = $(this).css('font-weight') == 'bold' ? 'normal' : 'bold';
 			if ( ((currentColumn == firstColumn) && (Math.abs(currentRow - firstRow) == 1)) || ((currentRow == firstRow) && (Math.abs(currentColumn - firstColumn) == 1))) {
-				$(this).css('font-weight', 'bold');
+				$(this).addClass('bold');
 			}
 		}	else {
 
@@ -484,18 +483,17 @@ function tableHandler()  {
 			if ($(this).attr(attribute) != boldedCells.first().attr(attribute)) {
 				return;
 			} else {
-				var weight = $(this).css('font-weight') == 'bold' ? 'normal' : 'bold';
 				boldedCells.each(function() {
 					var tempAttr = parseInt($(this).attr(attribute));
 					var tempOtherAttr = parseInt($(this).attr(otherAttribute));
 					if ((clickedAttr == tempAttr) && (Math.abs(tempOtherAttr - clickedOtherAttr) == 1)) {
-						that.css('font-weight', 'bold');
+						that.addClass('bold');
 					}
 				});
 			}
 		}
 		var nowBolded = $("td").filter(function() {
-			return ($(this).css('font-weight') == 700) || ($(this).css('font-weight') == 'boold');
+			return $(this).hasClass('bold');
 		});
 		var string = '';
 		nowBolded.each(function() {
