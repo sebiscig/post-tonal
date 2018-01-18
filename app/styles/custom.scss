@@ -82,6 +82,11 @@ a.tool-tip {
   border-radius: 3px;
 }
 
+.btm-btn-left {
+  @extend .btm-close;
+  float: left !important;
+}
+
 .bold {
 color:black;
 font-style:normal;
@@ -158,11 +163,14 @@ input#row {
 }
 
 /*serial-stuff*/
-#serial-stuff, #twelve-by-matrix, #hex-areas, #set-theoty-stuff, #prime-form-list {
+#serial-stuff, #twelve-by-matrix, #hex-areas, #set-theoty-stuff {
   display: none;
   //background-color: purple;
   //height: 150px;
   //width: 150px;
+}
+#prime-form-list {
+  float: left;
 }
 
 #serial-buttons, #set-theory-buttons {
@@ -249,4 +257,37 @@ a.expand {
   font-size: 1em;
   //margin-bottom: .25em;
   //margin-left: 1em;
+}
+/* clock-face */
+#back-circle {
+  z-index:-300;
+}
+
+#clock-face-wrapper {
+
+  float: left;
+  background-color: white;
+  padding: 1em;
+  margin-right:1em;
+  margin-bottom: 1em;
+  //margin-left: -2em;
+
+}
+svg#clock-face {
+  width:384px;
+
+}
+
+
+
+g#pc-lines line:hover, g#labels text:hover{
+  cursor:pointer;
+}
+g#pc-circles circle:hover{
+
+  cursor: pointer;
+}
+
+g#pc-circles circle {
+  display:none;
 }
