@@ -1,8 +1,9 @@
 {{yield}}
 <div>
 {{#if set-calculate}}
-  <!--<button{{action 'setCalculate'}} class="app-btn">{{buttonLabel}}</button>-->
-  {{#sc-calculate action="getPcs" theLabel=buttonLabel class="app-btn" sendPcs=(action 'sendPcs') getPcs=(action 'getPcs')}}
+
+  {{#sc-calculate feature="calculator" theLabel=buttonLabel class="app-btn" sendPcs=(action 'sendPcs') showSC=(action 'showTheSC')}}
+
   {{/sc-calculate}}
 {{/if}}
 <button type="button" class="close serial-close" {{action 'toggleVisibility'}}>
@@ -21,6 +22,8 @@
     </g>
   </svg>
   <div>
-    <button class="app-btn btm-btn-left" {{action 'setCalculate'}}>Calculate set class</button>
+
+    {{#sc-calculate feature="calculator" theLabel=buttonLabel class="app-btn" sendPcs=(action 'sendPcs') showSC=(action 'showTheSC')}}
+    {{/sc-calculate}}
 <button type="button" class="btn btn-default serial-close btm-close" {{action 'toggleVisibility'}}>Close</button>
 </div>

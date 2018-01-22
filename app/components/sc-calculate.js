@@ -29,14 +29,21 @@ import Ember from 'ember';
      SC_integer = smallest_integer (set_integer, inverted_set_integer);
 
      SC_representative = create_SC (SC_integer);
-     ret_output = "set {";
-	 for (var i = 0; i < pc_set_in.length - 1; i++) { ret_output += pc_set_in[i] + ", ";}
-	 ret_output += pc_set_in[(pc_set_in.length - 1)] + "}<br>prime form [" + SC_representative + "]";
+     //ret_output = "set {";
+	 var pcSet = '{';
+   for (var i = 0; i < pc_set_in.length - 1; i++) { pcSet += pc_set_in[i] + ", ";}
+	 pcSet += pc_set_in[(pc_set_in.length - 1)] + "}";
+   var primeForm = "[" + SC_representative + "]";
      var IC_vector = "";
-     IC_vector = IC_vec_create (SC_representative);
-     ret_output += "<br>Interval-class vector: [" + IC_vector + "]";
+     IC_vector = '[' + IC_vec_create (SC_representative) + ']';
+     //ret_output += "<br>Interval-class vector: [" + IC_vector + "]";
 
-   return ret_output;
+   var returnObject =  {
+     'set': pcSet,
+     'sc': primeForm,
+     "icv": IC_vector
+   };
+   return returnObject;
 
 };
 
@@ -188,33 +195,14 @@ var pc_to_int = function (pc_in)
 export default Ember.Component.extend({
   tagName:  '',
   actions: {
-    getPcs() {
-      //console.log(pcsIn)
-      //console.log('getting pcs');
+    main(feature) {
+      this.send(feature)
+    }, calculator () {
+
       var thePcs = this.get('sendPcs')();
-      //  console.log(thePcs)
       var theSC = SC_calculate(thePcs);
-      this.get('getPcs')(theSC);
-      //this.sendAction('action', 'showSC', theSC)
-      //alert (theSC)
-      //console.log(theSC);
-      //console.log(thePcs)
-      //this.sendAction('action', 'setPcs');
-      //var y = this.get('pcs');
+      this.get('showSC')(theSC);
 
-      //console.log('sc-calculate', thePcs);
-      //var x = this.get('pcs');
-      //console.log('sc-calculate', pcsIn);
-      //var answer = this.sendAction('action', 'getPcs');
-      //console.log(scIn);
-      //var answer = SC_calculate(scIn);
-      //return answer;
-
-    }, /*grabPcSet(action, params) {
-      console.log('here!')
-			this.send(action, params)
-    },*/ showThePcs(pcsIn) {
-      console.log(pcsIn)
     }
   }
 });

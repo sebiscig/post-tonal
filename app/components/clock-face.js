@@ -105,9 +105,10 @@ export default Ember.Component.extend({
   },
 
   actions: {
+
     sendPcs() {
 			//console.log('sending pcs');
-			//console.log(action, params)
+			//console.log('bob')
       var $highlightedPcs =
       Ember.$("g#pc-circles circle").filter(function(){
         return $(this).css('display') == 'block';
@@ -134,15 +135,23 @@ export default Ember.Component.extend({
       }*/
 
     },
-		getPcs(scIn){
-			console.log(action, params);
+		showTheSC(setInfo){
+			//console.log(scIn);
+			//var setInfo =
+			if (setInfo.set == "{undefined}") {
+				Ember.$("#textline-0").text('No pcs on clock face...');
+				Ember.$("#textline-1").text('Add some by clicking around');
+			} else {
+				Ember.$("#textline-0").text('set ' + setInfo.set + ',');
+				Ember.$("#textline-1").text('prime form ' + setInfo.sc);
+			}
 		},
     toggleVisibility() {
       this.sendAction('action', 'toggleThisProperty', 'clockVisible');
-    }/*,
+    },
 		handleSubcomponents(action, params) {
-			//console.log('handling clockface subcomponents')
+			console.log('handling clockface subcomponents', action, params)
 			this.send(action, params)
-		}*/
+		}
   }
 });
