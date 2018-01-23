@@ -1,8 +1,8 @@
 {{yield}}
 <div>
-{{#if set-calculate}}
+{{#if interactive}}
 
-  {{#sc-calculate action="clockSubcomponent" feature="calculator" theLabel=buttonLabel class="app-btn" thePcs=(action 'passPcs')}}
+  {{#sc-calculate action="clockSubcomponent" feature=interaction theLabel="Calculate set class" class="app-btn" thePcs=(action 'passPcs')}}
 
   {{/sc-calculate}}
 {{/if}}
@@ -24,7 +24,7 @@
   <div>
 
     {{!--#sc-calculate feature="calculator" theLabel=buttonLabel class="app-btn" sendPcs=(action 'sendPcs') showSC=(action 'showTheSC')--}}
-    {{#sc-calculate action="clockSubcomponent" feature="calculator" theLabel=buttonLabel class="app-btn" thePcs=(action 'passPcs')}}
+    {{#sc-calculate action="clockSubcomponent" feature=interaction theLabel="Calculate set class" class="app-btn" thePcs=(action 'passPcs')}}
     {{/sc-calculate}}
 <button type="button" class="btn btn-default serial-close btm-close" {{action 'toggleVisibility'}}>Close</button>
 </div>
