@@ -103,41 +103,24 @@ export default Ember.Component.extend({
       $theDot.css('display', newDisplay);
     });
   },
-
+	passPcs: function() {
+		return this.pcs;
+	},
   actions: {
-
-    sendPcs() {
-			//console.log('sending pcs');
-			//console.log('bob')
-      var $highlightedPcs =
+		setPcs() {
+			var $highlightedPcs =
       Ember.$("g#pc-circles circle").filter(function(){
         return $(this).css('display') == 'block';
       });
 	    var thePcs = getPcs($highlightedPcs);
       var x = makePcSet(thePcs);
 			this.set('pcs', thePcs);
-			//console.log(x)
-			return thePcs;
-			//console.log('clockface', x, this.pcs);
-			//this.send(action, params)
 
-			//console.log(thePcSet)
-			//return thePcSet;
-			/*
-      var info = this.sendAction('action', 'scCalculate', thePcs);
-      if (info.indexOf('undefined') > -1) {
-          $("#textline-0").text('No pcs on clock face...')
-          $("#textline-1").text('Add some by clicking around');
-      } else {
-        var parsed = info.split('<br>');
-        $("#textline-0").text(parsed[0]);
-        $("#textline-1").text(parsed[1]);
-      }*/
-
+		},
+    passPcs() {
+		  return this.pcs;
     },
 		showTheSC(setInfo){
-			//console.log(scIn);
-			//var setInfo =
 			if (setInfo.set == "{undefined}") {
 				Ember.$("#textline-0").text('No pcs on clock face...');
 				Ember.$("#textline-1").text('Add some by clicking around');
@@ -149,8 +132,7 @@ export default Ember.Component.extend({
     toggleVisibility() {
       this.sendAction('action', 'toggleThisProperty', 'clockVisible');
     },
-		handleSubcomponents(action, params) {
-			console.log('handling clockface subcomponents', action, params)
+		clockSubcomponent(action, params) {
 			this.send(action, params)
 		}
   }

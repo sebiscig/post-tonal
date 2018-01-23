@@ -2,7 +2,7 @@
 <div>
 {{#if set-calculate}}
 
-  {{#sc-calculate feature="calculator" theLabel=buttonLabel class="app-btn" sendPcs=(action 'sendPcs') showSC=(action 'showTheSC')}}
+  {{#sc-calculate action="clockSubcomponent" feature="calculator" theLabel=buttonLabel class="app-btn" thePcs=(action 'passPcs')}}
 
   {{/sc-calculate}}
 {{/if}}
@@ -23,7 +23,8 @@
   </svg>
   <div>
 
-    {{#sc-calculate feature="calculator" theLabel=buttonLabel class="app-btn" sendPcs=(action 'sendPcs') showSC=(action 'showTheSC')}}
+    {{!--#sc-calculate feature="calculator" theLabel=buttonLabel class="app-btn" sendPcs=(action 'sendPcs') showSC=(action 'showTheSC')--}}
+    {{#sc-calculate action="clockSubcomponent" feature="calculator" theLabel=buttonLabel class="app-btn" thePcs=(action 'passPcs')}}
     {{/sc-calculate}}
 <button type="button" class="btn btn-default serial-close btm-close" {{action 'toggleVisibility'}}>Close</button>
 </div>

@@ -198,10 +198,13 @@ export default Ember.Component.extend({
     main(feature) {
       this.send(feature)
     }, calculator () {
-
-      var thePcs = this.get('sendPcs')();
+      //console.log(pcs)
+      this.sendAction('action', 'setPcs');
+      var thePcs = this.get('thePcs')();
+      //var thePcs = this.sendAction('action', 'sendPcs');
       var theSC = SC_calculate(thePcs);
-      this.get('showSC')(theSC);
+      //this.get('showSC')(theSC);
+      this.sendAction('action', 'showTheSC', theSC)
 
     }
   }
