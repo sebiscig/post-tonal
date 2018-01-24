@@ -2,7 +2,9 @@
 <div id="set-theory-buttons">
   <button class="app-btn" {{action 'toggleThisProperty' 'primeformsVisible'}}>Prime Form List</button>
   &emsp;
-  <button class="app-btn" {{action 'toggleThisProperty' 'clockVisible'}}>Clock Face Calculator</button>
+  <button class="app-btn" {{action 'setUp' 'clockVisible' 'calculator'}}>Clock Face Calculator</button>
+  &emsp;
+  <button class="app-btn" {{action 'setUp' 'clockVisible' 'generator'}}>Prime Form Quizzer</button>
 
 </div>
 
@@ -11,7 +13,7 @@
     {{#if clockVisible}}
       <div id="clock-face-wrapper">
 
-          {{#clock-face cardinality='12' interactive=true interaction="calculator" action="handleSubcomponents"}}
+          {{#clock-face cardinality='12' interactive=true action="handleSubcomponents" theInteraction=(action 'passInteraction')}}
           {{/clock-face}}
 
       </div>
@@ -21,6 +23,5 @@
       {{#primeform-list action="handleSubcomponents"}}
       {{/primeform-list}}
     {{/if}}
-
 
 </div>

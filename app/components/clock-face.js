@@ -93,6 +93,9 @@ var drawClockFace = function(cardinality) {
 export default Ember.Component.extend({
   tagName: '',
 	pcs: [],
+	interaction: '',
+	buttonLabels: {'calculator': 'Calculate set class', 'generator': 'Generate a trichord'},
+	buttonLabel: '',
   didInsertElement() {
 
     drawClockFace(parseInt(this.get('cardinality')));
@@ -102,6 +105,11 @@ export default Ember.Component.extend({
       var newDisplay = $theDot.css('display') == 'none' ? 'block' : 'none';
       $theDot.css('display', newDisplay);
     });
+		//var theInteraction = this.get('interaction')();
+		this.set('interaction', this.get('theInteraction')());
+		this.set('buttonLabel',this.buttonLabels[this.interaction]);
+
+		//console.log(this.interaction);
   },
 	passPcs: function() {
 		return this.pcs;
@@ -128,6 +136,19 @@ export default Ember.Component.extend({
 				Ember.$("#textline-0").text('set ' + setInfo.set + ',');
 				Ember.$("#textline-1").text('prime form ' + setInfo.sc);
 			}
+		},
+		showSet(set) {
+			//console.log("in clock", set);
+			var prettySet = 'set {'
+			var circlesSelector = "g#pc-circles circle";
+			Ember.$("g#pc-circles circle").css('display', 'none');
+			for (var i=0; i < set.length; i++) {
+				var selector = circlesSelector + "#_"+set[i];
+				Ember.$(selector).css('display', 'block');
+				prettySet += (i < set.length - 1) ? set[i] + ', ' : set[i] + '}'
+			}
+			Ember.$("#textline-1").text('');
+			Ember.$("#textline-0").text(prettySet);
 		},
     toggleVisibility() {
       this.sendAction('action', 'toggleThisProperty', 'clockVisible');

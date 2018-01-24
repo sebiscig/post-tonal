@@ -5,6 +5,8 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 	clockVisible: false,
 	primeformsVisible: false,
+	quizzerVisible: false,
+	interaction: '',
 
   actions: {
     hide(id) {
@@ -21,9 +23,25 @@ export default Ember.Component.extend({
 			//console.log('handling set theor subcomps')
 			this.send(action, params)
 		},
+		setUp(property, feature) {
+			//this.send('toggleThisProperty', property);
+			if (this[property]) {
+				this.send('toggleThisProperty', property);
+
+			}
+
+			this.set('interaction', feature);
+			this.send('toggleThisProperty', property);
+		},
 		toggleThisProperty(property) {
+
 			this.toggleProperty(property);
-	  }, scCalculate(pcIn) {
+	  },
+		passInteraction() {
+
+			return this.interaction;
+		},
+		scCalculate(pcIn) {
 			console.log(pcIn);
 		}
   }
