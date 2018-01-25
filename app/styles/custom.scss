@@ -295,3 +295,19 @@ g#pc-circles circle {
 g.note {
   display: none;
 }
+div#notaterWrapper{
+  //float: right;
+  min-width:300px;
+  max-width:500px;
+}
+
+.staffLines {
+  fill:none;
+  stroke:#000000;
+  stroke-width:0.466;
+  stroke-linejoin:bevel;
+  stroke-miterlimit:10;
+}
+.generator, .notater, #notaterWrapper {
+  padding: 1em;
+}

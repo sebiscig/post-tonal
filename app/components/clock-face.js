@@ -106,7 +106,7 @@ export default Ember.Component.extend({
       $theDot.css('display', newDisplay);
     });
 		//var theInteraction = this.get('interaction')();
-		this.set('interaction', this.get('theInteraction')());
+		this.set('interaction', this.get('theInteraction'));
 		this.set('buttonLabel',this.buttonLabels[this.interaction]);
 
 		//console.log(this.interaction);
@@ -117,7 +117,7 @@ export default Ember.Component.extend({
   actions: {
 		setPcs() {
 			var $highlightedPcs =
-      Ember.$("g#pc-circles circle").filter(function(){
+      Ember.$("div#clock-face-wrapper g#pc-circles circle").filter(function(){
         return $(this).css('display') == 'block';
       });
 	    var thePcs = getPcs($highlightedPcs);

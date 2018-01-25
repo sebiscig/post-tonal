@@ -4,7 +4,7 @@
   &emsp;
   <button class="app-btn" {{action 'setUp' 'clockVisible' 'calculator'}}>Clock Face Calculator</button>
   &emsp;
-  <button class="app-btn" {{action 'setUp' 'clockVisible' 'generator'}}>Prime Form Quizzer</button>
+  <button class="app-btn" {{action 'toggleThisProperty' 'quizzerVisible'}}>Prime Form Quizzer</button>
 
 </div>
 
@@ -13,7 +13,7 @@
     {{#if clockVisible}}
       <div id="clock-face-wrapper">
 
-          {{#clock-face cardinality='12' interactive=true action="handleSubcomponents" theInteraction=(action 'passInteraction')}}
+          {{#clock-face cardinality='12' interactive=true action="handleSubcomponents" theInteraction=interaction}}
           {{/clock-face}}
 
       </div>
@@ -22,6 +22,10 @@
     {{#if primeformsVisible}}
       {{#primeform-list action="handleSubcomponents"}}
       {{/primeform-list}}
+    {{/if}}
+    {{#if quizzerVisible}}
+      {{#primeform-quizzer}}
+      {{/primeform-quizzer}}
     {{/if}}
 
 </div>

@@ -194,20 +194,7 @@ var pc_to_int = function (pc_in)
 
 /*=================================================================*/
 
-var generatePcSet = function (cardinality) {
 
-  var aggregate = ['0','1','2','3','4','5','6','7','8','9','t','e'];
-  var shuffled = aggregate.slice(0), setSize = aggregate.length, min = setSize - cardinality, temp, index;
-  while (setSize-- > min) {
-    index = Math.floor((setSize + 1) * Math.random());
-    temp = shuffled[index];
-    shuffled[index] = shuffled[setSize];
-    shuffled[setSize] = temp;
-  }
-  return shuffled.slice(min);
-};
-
-/*=================================================================*/
 
 export default Ember.Component.extend({
   tagName:  '',
@@ -224,13 +211,13 @@ export default Ember.Component.extend({
       //this.get('showSC')(theSC);
       this.sendAction('action', 'showTheSC', theSC)
 
-    }, generator() {
+    }/*, generator() {
       var card = parseInt(this.get('cardinality'));
       //console.log(card)
       var pcSet = generatePcSet(card);
       //console.log(pcSet)
       this.sendAction('action', 'showSet', pcSet)
 
-    }
+    }*/
   }
 });

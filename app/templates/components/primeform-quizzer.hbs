@@ -1,0 +1,13 @@
+{{yield}}
+
+<div class="generator">
+  {{#set-generator action="quizzerSubcomponent"}}
+  {{/set-generator}}
+
+  {{#set-notater theSet=currentSet}}
+  {{/set-notater}}
+<div id="clock-face-checker">
+  {{#clock-face cardinality='12' interactive=true interaction="checker"}}
+  {{/clock-face}}
+</div>
+</div>

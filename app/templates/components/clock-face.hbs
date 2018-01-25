@@ -1,14 +1,14 @@
 {{yield}}
 <div>
 {{#if interactive}}
-
+  {{#if (logical-tests test="==" value=interaction comparison='calculator')}}
     {{#sc-calculate action="clockSubcomponent" feature=interaction theLabel=buttonLabel class="app-btn" thePcs=(action 'passPcs')}}
     {{/sc-calculate}}
-
-  {{#if (logical-tests test="==" value=interaction comparison='generator')}}
+    {{/if}}
+  {{!--#if (logical-tests test="==" value=interaction comparison='generator')}}
     {{#sc-calculate action="clockSubcomponent" feature=interaction theLabel="Generate a trichord" class="app-btn" cardinality=3}}
   {{/sc-calculate}}
-  {{/if}}
+  {{/if--}}
 {{/if}}
 <button type="button" class="close serial-close" {{action 'toggleVisibility'}}>
   <span aria-hidden="true"><i class="fa fa-times"></i></span>

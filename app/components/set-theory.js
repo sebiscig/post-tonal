@@ -25,10 +25,7 @@ export default Ember.Component.extend({
 		},
 		setUp(property, feature) {
 			//this.send('toggleThisProperty', property);
-			if (this[property]) {
-				this.send('toggleThisProperty', property);
-
-			}
+			
 
 			this.set('interaction', feature);
 			this.send('toggleThisProperty', property);
