@@ -10,6 +10,9 @@ var getPcs = function ($pcsOnClock) {
 	});
 	return pcSet;
 };
+
+/*================  ================*/
+
 var makePcSet = function(pcsIn) {
 	var set = '{';
 	for (var i = 0; i < pcsIn.length -1; i++) {
@@ -19,6 +22,16 @@ var makePcSet = function(pcsIn) {
 	return set
 };
 
+/*================  ================*/
+
+var getHighlightedPcs = function() {
+	var dotSelector = "g#pc-circles g.dotGroup";
+	//var $highlightedPcs =
+	return Ember.$(dotSelector).filter(function(){
+			return $(this).find('circle.pc-dot').css('display') == 'block';
+		});
+	//return $highlightedPcs;
+};
 
 /*=========================== Drawing SVG ===========================*/
 
@@ -62,13 +75,22 @@ var makePcLine = function(pcNumber, rotation) {
 
 var makePcDot = function(pcNumber, rotation) {
   //<circle id="_0" cx="405" cy="90" r='15' fill="black" stroke="black" transform="rotate (0 405 390)"/>
-
+	var theNewGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
   var theDot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-  theDot.setAttribute('class', 'new');
+	var theErrorCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+	theDot.setAttribute('class', 'pc-dot');
+	theErrorCircle.setAttribute('class', 'error-circle');
+  theNewGroup.setAttribute('class', 'new');
+	theNewGroup.appendChild(theDot);
+	theNewGroup.appendChild(theErrorCircle);
   var theDots = Ember.$("g#pc-circles");
-  theDots.append(theDot);
-  theDot = theDots.find('circle.new');
-  theDot.attr('id', '_'+pcNumber).attr('cx', '405').attr('cy', '90').attr('r', '15').attr('fill', 'black').attr('stroke', 'black').attr('transform', 'rotate(' +rotation + ' 405 390)').removeClass('new');
+  theDots.append(theNewGroup);
+	theNewGroup = theDots.find('g.new');
+  theDot = theNewGroup.find('circle.pc-dot');
+	theErrorCircle = theNewGroup.find('circle.error-circle');
+  theDot.attr('cx', '405').attr('cy', '90').attr('r', '15').attr('fill', 'black').attr('stroke', 'black');
+	theErrorCircle.attr('cx', '405').attr('cy', '90').attr('r', '40').attr('fill', 'transparent').attr('stroke', 'black').attr('stroke-width', '3');
+	theNewGroup.attr('id', '_'+pcNumber).attr('transform', 'rotate(' +rotation + ' 405 390)').removeClass('new').addClass('dotGroup')
 };
 
 /*========= Main function for drawing the clockface =========*/
@@ -94,36 +116,31 @@ export default Ember.Component.extend({
   tagName: '',
 	pcs: [],
 	interaction: '',
-	buttonLabels: {'calculator': 'Calculate set class', 'generator': 'Generate a trichord'},
+	buttonLabels: {'calculator': 'Calculate set class', 'generator': 'Generate a trichord', 'quizzer': 'Check your answer'},
 	buttonLabel: '',
   didInsertElement() {
 
     drawClockFace(parseInt(this.get('cardinality')));
-    Ember.$("g#pc-circles circle, g#labels text, g#pc-lines line").on('click', function() {
-      var circleSelector = "g#pc-circles circle#" + Ember.$(this).attr('id');
+    Ember.$("g.dotGroup, g#labels text, g#pc-lines line").on('click', function() {
+      var circleSelector = "g#pc-circles g#" + Ember.$(this).attr('id') + ' circle.pc-dot';
+			var errorSelector = "g#pc-circles g#" + Ember.$(this).attr('id') + ' circle.error-circle';
       var $theDot = Ember.$(circleSelector);
+
       var newDisplay = $theDot.css('display') == 'none' ? 'block' : 'none';
       $theDot.css('display', newDisplay);
+			Ember.$(errorSelector).css('display', 'none')
     });
-		//var theInteraction = this.get('interaction')();
 		this.set('interaction', this.get('theInteraction'));
 		this.set('buttonLabel',this.buttonLabels[this.interaction]);
-
-		//console.log(this.interaction);
   },
-	passPcs: function() {
-		return this.pcs;
-	},
   actions: {
 		setPcs() {
-			var $highlightedPcs =
-      Ember.$("div#clock-face-wrapper g#pc-circles circle").filter(function(){
-        return $(this).css('display') == 'block';
-      });
+
+			var $highlightedPcs = getHighlightedPcs();
+
 	    var thePcs = getPcs($highlightedPcs);
       var x = makePcSet(thePcs);
 			this.set('pcs', thePcs);
-
 		},
     passPcs() {
 		  return this.pcs;
@@ -138,7 +155,6 @@ export default Ember.Component.extend({
 			}
 		},
 		showSet(set) {
-			//console.log("in clock", set);
 			var prettySet = 'set {'
 			var circlesSelector = "g#pc-circles circle";
 			Ember.$("g#pc-circles circle").css('display', 'none');
@@ -151,10 +167,30 @@ export default Ember.Component.extend({
 			Ember.$("#textline-0").text(prettySet);
 		},
     toggleVisibility() {
-      this.sendAction('action', 'toggleThisProperty', 'clockVisible');
+      this.sendAction('action', 'toggleVisibilities', '');
     },
 		clockSubcomponent(action, params) {
 			this.send(action, params)
+		}, showAnswer(answer){
+			var thePromptPcs = this.get('pcs');
+			var $highlightedPcs = getHighlightedPcs ()
+
+			var $wrongHighlights = $highlightedPcs.filter(function() {
+				return !thePromptPcs.includes($(this).attr('id').replace('_', ''));
+			});
+			if (this.pcs.length == 0) {
+				Ember.$("#textline-0").text('Nothing to check: click ');
+				Ember.$("#textline-1").text('"Trichord" etc. first.');
+			} else if (($wrongHighlights.length == 0) && ($highlightedPcs.length == this.pcs.length)) {
+				this.send('showTheSC', answer);
+			} else if ($highlightedPcs.length != this.pcs.length) {
+				Ember.$("#textline-0").text('Can\'t check yet: set not fully');
+				Ember.$("#textline-1").text('notated on the clockface');
+			} else if ($wrongHighlights.length > 0){
+				Ember.$("#textline-0").text('Error(s) in your integer notation');
+				Ember.$("#textline-1").text('Mistake(s) circled');
+				$wrongHighlights.find('circle.error-circle').css('display', 'block');//.css('stroke', 'red');
+			}
 		}
   }
 });

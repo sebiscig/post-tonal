@@ -9,6 +9,8 @@ export default Ember.Component.extend({
     },
     setPcSet(setIn){
       this.set('currentSet', setIn);
+    }, passPcs() {
+      return this.currentSet;
     }
   }
 });

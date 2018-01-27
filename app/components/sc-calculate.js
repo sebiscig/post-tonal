@@ -29,14 +29,14 @@ import Ember from 'ember';
      SC_integer = smallest_integer (set_integer, inverted_set_integer);
 
      SC_representative = create_SC (SC_integer);
-     //ret_output = "set {";
+
 	 var pcSet = '{';
    for (var i = 0; i < pc_set_in.length - 1; i++) { pcSet += pc_set_in[i] + ", ";}
 	 pcSet += pc_set_in[(pc_set_in.length - 1)] + "}";
    var primeForm = "[" + SC_representative + "]";
      var IC_vector = "";
      IC_vector = '[' + IC_vec_create (SC_representative) + ']';
-     //ret_output += "<br>Interval-class vector: [" + IC_vector + "]";
+
 
    var returnObject =  {
      'set': pcSet,
@@ -194,30 +194,23 @@ var pc_to_int = function (pc_in)
 
 /*=================================================================*/
 
-
-
 export default Ember.Component.extend({
   tagName:  '',
+  pcsEntered: [],
+  didUpdateAttrs(){
+    this.set('pcsEntered', this.get('thePcs'));
+  },
   actions: {
     main(feature) {
-      //console.log(feature)
       this.send(feature)
     }, calculator () {
-      //console.log(pcs)
       this.sendAction('action', 'setPcs');
-      var thePcs = this.get('thePcs')();
-      //var thePcs = this.sendAction('action', 'sendPcs');
-      var theSC = SC_calculate(thePcs);
-      //this.get('showSC')(theSC);
+      var theSC =  SC_calculate(this.get('thePcs')());
       this.sendAction('action', 'showTheSC', theSC)
 
-    }/*, generator() {
-      var card = parseInt(this.get('cardinality'));
-      //console.log(card)
-      var pcSet = generatePcSet(card);
-      //console.log(pcSet)
-      this.sendAction('action', 'showSet', pcSet)
-
-    }*/
+    }, quizzer() {
+      var theSC =  SC_calculate(this.get('thePcs')());
+      this.sendAction('action', 'showAnswer', theSC)
+    }
   }
 });

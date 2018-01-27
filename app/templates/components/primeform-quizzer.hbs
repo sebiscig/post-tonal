@@ -1,13 +1,20 @@
 {{yield}}
+<p>Use this quizzer to practice finding the prime forms of pitch-class sets (trichords through hexachords).</p>
+  <p>Click a button to generate a random set with the given cardinality. Then check your answer with the clockface.</p>
+  <p><strong>NB</strong>: you must notate the set on the clockface correctly before the answer is revealed.</p>
+<div id="set-generator">
 
-<div class="generator">
-  {{#set-generator action="quizzerSubcomponent"}}
-  {{/set-generator}}
-
-  {{#set-notater theSet=currentSet}}
+    {{#set-generator action="quizzerSubcomponent"}}
+    {{/set-generator}}
+  
+  {{#set-notater theSet=currentSet length=6}}
   {{/set-notater}}
+
+</div>
+
 <div id="clock-face-checker">
-  {{#clock-face cardinality='12' interactive=true interaction="checker"}}
+  {{#clock-face cardinality='12' interactive=true theInteraction=interaction pcs=currentSet thePcs=(action 'passPcs')}}
   {{/clock-face}}
 </div>
-</div>
+
+<div style="clear:both;"></div>

@@ -19,7 +19,6 @@ var TnI_SCs = function () {
 			inversion_int = inverted_binary_to_integer(i.toString(2));
 			var invertedSet = binary_to_SC_set(inversion_int.toString(2));
 			var subtraction = pcint_to_int(invertedSet[1]);
-			//console.log(subtraction);
 			var temp = '[';
 			for (var j = 1; j < invertedSet.length-1; j++) {
 				temp += int_to_pc_int(pcint_to_int(invertedSet[j]) - subtraction);
@@ -28,8 +27,7 @@ var TnI_SCs = function () {
 			var setSum = setIntervalSum(TnI_sets_arr[i-1])
 			var invertedSum = setIntervalSum(invertedSet);
 			var count = (TnI_sets_by_card_array [(TnI_sets_arr[i-1].length - 3)].match(/class="primeForm"/g) || []).length;
-			//if (count != 0) {console.log(count)};
-			//console.log(count);
+
 			if (count == 0){
 					TnI_sets_by_card_array [(TnI_sets_arr[i-1].length - 3)] += '<div class="aRow">';
 			}
@@ -40,14 +38,12 @@ var TnI_SCs = function () {
 
 			var theOtherSets = '<br><span class="members"><span class="theMembers">';
 			var otherSets = [i];
-      //inversion_int = inverted_binary_to_integer(i.toString(2));
 
-            //ret_str += int_of_an_inversion + "<br>";
       if (TnI_sets_arr[( (inversion_int%4095)-1)] == "") {
 				TnI_sets_arr[( (inversion_int%4095)-1)] = "<br>";
-				//otherSets.push(binary_to_SC_set((inversion_int%4095).toString(2)));
+
 				otherSets.push(inversion_int%4095);
-				//theOtherSets += binary_to_SC_set((inversion_int%4095).toString(2)) + '<br>';
+
 		}
 
 
@@ -55,21 +51,14 @@ var TnI_SCs = function () {
         if (TnI_sets_arr[( ((i * Math.pow(2,j))%4095)-1)] == "") {
 					var y = ( ((i * Math.pow(2,j))%4095));
 					TnI_sets_arr[y-1] = "<br>";
-					//otherSets.push(binary_to_SC_set(y.toString(2)));
-					otherSets.push(y);
-					//theOtherSets += binary_to_SC_set(y.toString(2)) + '<br>';
-
-
+						otherSets.push(y);
 				}
         if (TnI_sets_arr[( ((inversion_int*Math.pow(2,j))%4095)-1)] == "") {
 					var x = ( ((inversion_int*Math.pow(2,j))%4095));
 					TnI_sets_arr[x-1] = "<br>";
-					//otherSets.push(binary_to_SC_set(x.toString(2)));
 					otherSets.push(x);
-					//theOtherSets += binary_to_SC_set(x.toString(2)) + '<br>';
 				}
       }
-			//console.log(otherSets, otherSets.sort(function (a, b) {  return a - b;  }))
 			otherSets.sort(function (a, b) {  return a - b;  });
 			for (var q = 0; q < otherSets.length; q++) {
 				if ((q%3 == 0) && (q > 0)) {
@@ -107,9 +96,6 @@ var TnI_SCs = function () {
 		}
 
 		return ret_str02;
-  //  ret_str02 += "<br>There are " + counter + " (nonempty) T<sub>n</sub>I set classes.";
-
-	//all_TnI_SCs.innerHTML = "The " + counter + " (nonempty) T<sub>n</sub>/T<sub>n</sub>I set classes<br><br>" + ret_str02;
 
 };
 
@@ -123,9 +109,9 @@ var binary_to_pc_set = function (bin_in) {
 		if (bin_in[i] == "1") {pc_set +=  int_to_pc_int((bin_in.length - i - 1));}
 	}
 
-//return pc_set;
+
 return pc_set_pretty (pc_set);
-//return ret_pc_set;
+
 };
 
 /*=================================================================*/
@@ -150,9 +136,9 @@ var binary_to_SC_set  = function (bin_in) {
 		if (bin_in[i] == "1") {pc_set +=  int_to_pc_int((bin_in.length - i - 1));}
 	}
 
-//return pc_set;
+
 return pc_set + "]";
-//return ret_pc_set;
+
 };
 
 /*=================================================================*/
@@ -200,7 +186,6 @@ var setIntervalSum  = function (setIn) {
 	var pcsOnly = /[0-9te]+/
 
 	if (setIn.length > 2) {
-		//console.log(setIn)
 		var pcs = pcsOnly.exec(setIn).toString();
 
 		var sum = 0;
@@ -256,12 +241,12 @@ export default Ember.Component.extend({
 
     display += answer;
     Ember.$("#prime-form-list-target").html(display);
-    
+
     primeFormHandlers();
   },
   actions: {
     toggleVisibility() {
-      this.sendAction('action', 'toggleThisProperty', 'primeformsVisible')
+      this.sendAction('action', 'toggleVisibility', '')
     }
   }
 });

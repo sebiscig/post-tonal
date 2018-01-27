@@ -3,9 +3,11 @@ import Ember from 'ember';
 /*=================================================================*/
 
 export default Ember.Component.extend({
-	clockVisible: false,
-	primeformsVisible: false,
-	quizzerVisible: false,
+	isVisible: {
+		clock: false,
+		primeForms: false,
+		quizzer: false,
+	},
 	interaction: '',
 
   actions: {
@@ -20,26 +22,22 @@ export default Ember.Component.extend({
 			}
 		},
 		handleSubcomponents(action, params) {
-			//console.log('handling set theor subcomps')
+
 			this.send(action, params)
 		},
 		setUp(property, feature) {
-			//this.send('toggleThisProperty', property);
-			
-
 			this.set('interaction', feature);
-			this.send('toggleThisProperty', property);
+			this.send('toggleVisibilities', property);
 		},
-		toggleThisProperty(property) {
+		toggleVisibilities(property) {
 
-			this.toggleProperty(property);
+			let that = this;
+			Object.keys(this.isVisible).forEach(function(key) {
+				that.set('isVisible.'+key, (key == property));
+			});
 	  },
 		passInteraction() {
-
 			return this.interaction;
-		},
-		scCalculate(pcIn) {
-			console.log(pcIn);
 		}
   }
 });
