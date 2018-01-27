@@ -189,7 +189,7 @@ export default Ember.Component.extend({
 			} else if ($wrongHighlights.length > 0){
 				Ember.$("#textline-0").text('Error(s) in your integer notation');
 				Ember.$("#textline-1").text('Mistake(s) circled');
-				$wrongHighlights.find('circle.error-circle').css('display', 'block');//.css('stroke', 'red');
+				$wrongHighlights.find('circle.error-circle').css('display', 'block');
 			}
 		}
   }
