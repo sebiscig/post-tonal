@@ -82,6 +82,11 @@ a.tool-tip {
   border-radius: 3px;
 }
 
+.btm-btn-left {
+  @extend .btm-close;
+  float: left !important;
+}
+
 .bold {
 color:black;
 font-style:normal;
@@ -158,11 +163,14 @@ input#row {
 }
 
 /*serial-stuff*/
-#serial-stuff, #twelve-by-matrix, #hex-areas, #set-theoty-stuff, #prime-form-list {
+#serial-stuff, #twelve-by-matrix, #hex-areas, #set-theoty-stuff {
   display: none;
   //background-color: purple;
   //height: 150px;
   //width: 150px;
+}
+#prime-form-list {
+  float: left;
 }
 
 #serial-buttons, #set-theory-buttons {
@@ -247,6 +255,86 @@ div.aRow {
 a.expand {
   @extend .tool-tip;
   font-size: 1em;
-  //margin-bottom: .25em;
-  //margin-left: 1em;
+
+}
+
+/* clock-face */
+#back-circle {
+  z-index:-300;
+}
+
+#clock-face-wrapper {
+
+  float: left;
+  background-color: white;
+  padding: 1em;
+  margin-right:1em;
+  margin-bottom: 1em;
+}
+svg#clock-face {
+  width: 100%;
+}
+
+g#pc-lines line:hover, g#labels text:hover{
+  cursor:pointer;
+}
+g#pc-circles circle:hover{
+
+  cursor: pointer;
+}
+
+g#pc-circles circle {
+  display:none;
+}
+
+g.note {
+  display: none;
+}
+/* notater */
+div#notaterWrapper{
+
+  min-width:300px;
+  max-width:500px;
+}
+
+.staffLines {
+  fill:none;
+  stroke:#000000;
+  stroke-width:0.466;
+  stroke-linejoin:bevel;
+  stroke-miterlimit:10;
+}
+
+.ledgerLine {
+  fill:none;
+  stroke:#000000;
+  stroke-width:0.7766;
+  stroke-linejoin:bevel;
+  stroke-miterlimit:10;
+}
+#set-generator {
+  padding: 0 1em;
+}
+#notaterWrapper {
+  padding: 1em;
+}
+/* quizzer */
+
+#clock-face-checker, #set-generator {
+  float: left;
+}
+
+@media(max-width:515px) {
+  #clock-face-checker {
+    width: 100%;
+  }
+}
+@media(min-width:516px){
+  #clock-face-checker {
+    width: 400px;
+  }
+}
+
+.generatorButton {
+  margin-bottom: 1em;
 }

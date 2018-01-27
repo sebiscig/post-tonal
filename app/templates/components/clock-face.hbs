@@ -1,0 +1,27 @@
+{{yield}}
+<div>
+{{#if interactive}}
+    {{#sc-calculate action="clockSubcomponent" feature=interaction theLabel=buttonLabel class="app-btn" thePcs=(action 'passPcs')}}
+    {{/sc-calculate}}
+{{/if}}
+
+</div>
+  <svg id="clock-face" version="1.1" viewBox="0 0 800 800">
+    <text id="textline-0" x="405" y="370" font-family="Verdana" font-size="30" text-anchor="middle"></text>
+    <text id="textline-1" x="405" y="410" font-family="Verdana" font-size="30" text-anchor="middle"></text>
+    <g id="labels">
+    </g>
+    <g id="the-clock">
+      <circle id="back-circle" cx="405" cy="390" r="300" fill="transparent" stroke="black" stroke-width="6"/>
+      <g id="pc-lines"></g>
+      <g id="pc-circles"></g>
+    </g>
+  </svg>
+  <div>
+    {{#if interactive}}
+
+        {{#sc-calculate action="clockSubcomponent" feature=interaction theLabel=buttonLabel class="app-btn" thePcs=(action 'passPcs')}}
+        {{/sc-calculate}}
+    {{/if}}
+
+</div>
