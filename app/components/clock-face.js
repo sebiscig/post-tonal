@@ -118,6 +118,14 @@ export default Ember.Component.extend({
 	interaction: '',
 	buttonLabels: {'calculator': 'Calculate set class', 'generator': 'Generate a trichord', 'quizzer': 'Check your answer'},
 	buttonLabel: '',
+	didUpdateAttrs(){
+		
+		if (this.interaction=='quizzer') {
+			Ember.$('g#pc-circles circle').css('display', 'none');
+			Ember.$("#textline-0").text('');
+			Ember.$("#textline-1").text('');
+		}
+	},
   didInsertElement() {
 
     drawClockFace(parseInt(this.get('cardinality')));
@@ -183,7 +191,7 @@ export default Ember.Component.extend({
 				Ember.$("#textline-1").text('"Trichord" etc. first.');
 			} else if (($wrongHighlights.length == 0) && ($highlightedPcs.length == this.pcs.length)) {
 				this.send('showTheSC', answer);
-			} else if ($highlightedPcs.length != this.pcs.length) {
+			} else if ($highlightedPcs.length < this.pcs.length) {
 				Ember.$("#textline-0").text('Can\'t check yet: set not fully');
 				Ember.$("#textline-1").text('notated on the clockface');
 			} else if ($wrongHighlights.length > 0){

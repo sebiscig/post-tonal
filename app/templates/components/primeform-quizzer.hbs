@@ -1,15 +1,29 @@
 {{yield}}
-<p>Use this quizzer to practice finding the prime forms of pitch-class sets (trichords through hexachords).</p>
-  <p>Click a button to generate a random set with the given cardinality. Then check your answer with the clockface.</p>
-  <p><strong>NB</strong>: you must notate the set on the clockface correctly before the answer is revealed.</p>
-<div id="set-generator">
 
+  <div id="prime-form-quizzer-tip" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times"></i></button>
+          <h4 class="modal-title">Prime Form Quizzer</h4>
+        </div>
+        <div class="modal-body">
+          <p>Use this quizzer to practice finding the prime forms of pitch-class sets (trichords through hexachords).</p>
+            <p>Click a cardinality button to generate a random set. Then check your answer with the clockface.</p>
+            <p><strong>NB</strong>: you must notate the set on the clockface correctly before the answer is revealed.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p>Click a cardinality to get started.<sup><a class="tool-tip" data-toggle="modal" data-target="#prime-form-quizzer-tip"><i class="fa fa-info-circle"></i></a></sup></p>
+<div id="set-generator">
     {{#set-generator action="quizzerSubcomponent"}}
     {{/set-generator}}
-  
-  {{#set-notater theSet=currentSet length=6}}
-  {{/set-notater}}
-
+    {{#set-notater theSet=currentSet length=6}}
+    {{/set-notater}}
 </div>
 
 <div id="clock-face-checker">
