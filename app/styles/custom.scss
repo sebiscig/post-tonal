@@ -15,8 +15,10 @@ $active: darken($institution-color, 10%);
 $focus: darken($institution-color, 5%);
 
 /* universal */
+
 body {
-  padding-top: 60px;
+  @media(min-width: 768px) {padding-top: 60px;}
+  @media(max-width: 767px) {padding-top: 145px;}
 }
 
 section {
@@ -57,6 +59,7 @@ a.tool-tip {
 .app-btn, .app-btn:disabled {
   @extend .btn;
   @extend .btn-primary;
+  margin-bottom: 1em;
   background: $institution-color;
   border: 1px solid $active;
   &:hover {
@@ -173,8 +176,11 @@ input#row {
   float: left;
 }
 
-#serial-buttons, #set-theory-buttons {
+#serial-buttons {
   padding: 1em 0;
+}
+#set-theory-buttons {
+ padding: 0 1em 1em 1em;
 }
 
 button.btm-close {
@@ -262,6 +268,9 @@ a.expand {
 #back-circle {
   z-index:-300;
 }
+.clock-btn {
+  margin-bottom: .75em;
+}
 
 #clock-face-wrapper {
 
@@ -293,7 +302,7 @@ g.note {
 /* notater */
 div#notaterWrapper{
 
-  min-width:300px;
+  //min-width:300px;
   max-width:500px;
 }
 
@@ -316,7 +325,7 @@ div#notaterWrapper{
   padding: 0 1em;
 }
 #notaterWrapper {
-  padding: 1em;
+  padding-bottom: 1em;
 }
 /* quizzer */
 
@@ -333,8 +342,4 @@ div#notaterWrapper{
   #clock-face-checker {
     width: 400px;
   }
-}
-
-.generatorButton {
-  margin-bottom: 1em;
 }
