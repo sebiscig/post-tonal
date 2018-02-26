@@ -4,15 +4,15 @@ import Ember from 'ember';
 /*=================================================================*/
  var SC_calculate = function (thePcsAndRootFlag)
 {
-  //console.log(thePcs)
-  var getRoot = thePcsAndRootFlag[1];
+
   var thePcs = thePcsAndRootFlag[0]
+  var getRoot = thePcsAndRootFlag[1];
 
     var pc_set_in = ''
     for (var i = 0; i < thePcs.length; i++) {
       pc_set_in += thePcs[i];
     }
-  
+
 
     var SC_representative = "";
     var ret_output = "";
@@ -28,25 +28,25 @@ import Ember from 'ember';
      var set_integer = binary_to_integer (bin_set_rep);
      var inverted_set_integer = inverted_binary_to_integer (bin_set_rep);
 
-     var SC_integer = 0;
-     SC_integer = smallest_integer (set_integer, inverted_set_integer);
+     var SC_integer_and_form = {};
+     SC_integer_and_form = sc_integer_and_form (set_integer, inverted_set_integer);
 
-     SC_representative = create_SC (SC_integer);
+     SC_representative = create_SC (SC_integer_and_form.sc_integer);
 
-	 var pcSet = '{';
-   for (var i = 0; i < pc_set_in.length - 1; i++) { pcSet += pc_set_in[i] + ", ";}
-	 pcSet += pc_set_in[(pc_set_in.length - 1)] + "}";
-   var primeForm = "[" + SC_representative + "]";
-     var IC_vector = "";
-     IC_vector = '[' + IC_vec_create (SC_representative) + ']';
+  	 var pcSet = '{';
+     for (var i = 0; i < pc_set_in.length - 1; i++) { pcSet += pc_set_in[i] + ", ";}
+  	 pcSet += pc_set_in[(pc_set_in.length - 1)] + "}";
+     var primeForm = "[" + SC_representative + "]";
+       var IC_vector = "";
+       IC_vector = '[' + IC_vec_create (SC_representative) + ']';
 
 
-   var returnObject =  {
-     'set': pcSet,
-     'sc': primeForm,
-     "icv": IC_vector
-   };
-   return returnObject;
+     var returnObject =  {
+       'set': pcSet,
+       'sc': primeForm,
+       "icv": IC_vector
+     };
+     return returnObject;
 
 };
 
@@ -109,24 +109,45 @@ var inverted_binary_to_integer = function (binary_in)
 
 /*=================================================================*/
 
-var smallest_integer = function(binary_in00, binary_in01)
+var smallestInteger = function (integerIn) {
+  var smallest = integerIn;
+  var temp00;
+  for (var i = 1; i < 12; i++)
+  {
+      temp00 = integerIn*Math.pow(2,i)%4095;
+      if ( (temp00 <= smallest) ) {
+        smallest = temp00;
+      }
+  }
+  return smallest
+};
+
+
+/*=================================================================*/
+
+var sc_integer_and_form = function(set_integer, inverted_set_integer)
 
 {
-    var temp00 = 0; var temp01 = 0; var smallest = 0;
-    temp00 = binary_in00; temp01 = binary_in01;
+    var smallestSetInteger = 0;
+    var smallestInversionInteger = 0;
+    var smallest = 0;
+    var inversionIsPrime = false;
+    smallestSetInteger = smallestInteger(set_integer);
+    smallestInversionInteger = smallestInteger(inverted_set_integer);
+    if (smallestSetInteger <= smallestInversionInteger) {
+      smallest = smallestSetInteger;
+      inversionIsPrime = false;
+    } else {
+      smallest = smallestInversionInteger;
+      inversionIsPrime = true
+    };
 
-    if (temp00 <= temp01) {smallest = temp00;}
-    else {smallest = temp01;}
-
-    for (var i = 1; i < 12; i++)
-    {
-        temp00 = binary_in00*Math.pow(2,i)%4095;
-        temp01 = binary_in01*Math.pow(2,i)%4095;
-
-        if ( (temp00 <= temp01) && (temp00 <= smallest) ) {smallest = temp00;}
-        else if ( (temp00 >= temp01) && (temp01 <= smallest) ) {smallest = temp01;}
+    var returnObject = {
+      'sc_integer': smallest,
+      'inversionIsPrime': inversionIsPrime,
+      'inversionallySymmetric': (smallestSetInteger == smallestInversionInteger)
     }
-    return smallest;
+    return returnObject
 };
 
 /*=================================================================*/
