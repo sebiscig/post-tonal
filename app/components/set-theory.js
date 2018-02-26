@@ -9,7 +9,7 @@ export default Ember.Component.extend({
 		quizzer: false,
 	},
 	interaction: '',
-
+	startingPointDirection: false,
   actions: {
     hide(id) {
 			this.$("#"+id).css('display', 'none');
@@ -25,8 +25,9 @@ export default Ember.Component.extend({
 
 			this.send(action, params)
 		},
-		setUp(property, feature) {
+		setUp(property, feature, startPoint) {
 			this.set('interaction', feature);
+			this.set('startingPointDirection', startPoint);
 			this.send('toggleVisibilities', property);
 		},
 		toggleVisibilities(property) {

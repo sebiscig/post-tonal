@@ -2,7 +2,7 @@
 <div id="set-theory-buttons" class="container">
   <button class="app-btn" {{action 'toggleVisibilities' 'primeForms'}}>Prime Form List</button>
 <!--  &emsp;
-  <button class="app-btn" {{action 'setUp' 'clock' 'calculator'}}>Clock Face Calculator</button>
+  <button class="app-btn" {{action 'setUp' 'clock' 'calculator' true}}>Clock Face Calculator</button>
 -->
   &emsp;
   <button class="app-btn" {{action 'toggleVisibilities' 'quizzer'}}>Prime Form Quizzer</button>
@@ -19,7 +19,7 @@
           <span aria-hidden="true"><i class="fa fa-times"></i></span>
         </button>
 
-          {{#clock-face cardinality='12' interactive=true action="handleSubcomponents" theInteraction=interaction}}
+          {{#clock-face cardinality='12' interactive=true action="handleSubcomponents" theInteraction=interaction root=startingPointDirection}}
           {{/clock-face}}
           <button type="button" class="btn btn-default serial-close btm-close" {{action 'toggleVisibilities' ''}}>Close</button><br />
       </div>
@@ -40,7 +40,7 @@
         <button type="button" class="close serial-close" {{action 'toggleVisibilities' ''}}>
           <span aria-hidden="true"><i class="fa fa-times"></i></span>
         </button>
-        {{#primeform-quizzer interaction='quizzer'}}
+        {{#primeform-quizzer interaction='quizzer' startingPointDirection=true}}
         {{/primeform-quizzer}}
 
         <button type="button" class="btn btn-default serial-close btm-close" style="clear: both;"{{action 'toggleVisibilities' ''}}>Close</button><br />

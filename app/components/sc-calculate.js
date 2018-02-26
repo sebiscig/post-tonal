@@ -2,14 +2,17 @@ import Ember from 'ember';
 
 /*=========================== Calculator functions ===========================*/
 /*=================================================================*/
- var SC_calculate = function (thePcs)
+ var SC_calculate = function (thePcsAndRootFlag)
 {
+  //console.log(thePcs)
+  var getRoot = thePcsAndRootFlag[1];
+  var thePcs = thePcsAndRootFlag[0]
 
     var pc_set_in = ''
     for (var i = 0; i < thePcs.length; i++) {
       pc_set_in += thePcs[i];
     }
-
+  
 
     var SC_representative = "";
     var ret_output = "";
@@ -205,11 +208,13 @@ export default Ember.Component.extend({
       this.send(feature)
     }, calculator () {
       this.sendAction('action', 'setPcs');
+
       var theSC =  SC_calculate(this.get('thePcs')());
       this.sendAction('action', 'showTheSC', theSC)
 
     }, quizzer() {
       var theSC =  SC_calculate(this.get('thePcs')());
+      //console.log(this.get('thePcs')());
       this.sendAction('action', 'showAnswer', theSC)
     }
   }

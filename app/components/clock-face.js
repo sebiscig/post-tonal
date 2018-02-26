@@ -118,8 +118,9 @@ export default Ember.Component.extend({
 	interaction: '',
 	buttonLabels: {'calculator': 'Calculate set class', 'generator': 'Generate a trichord', 'quizzer': 'Check your answer'},
 	buttonLabel: '',
+	root: false,
 	didUpdateAttrs(){
-		
+
 		if (this.interaction=='quizzer') {
 			Ember.$('g#pc-circles circle').css('display', 'none');
 			Ember.$("#textline-0").text('');
@@ -140,6 +141,8 @@ export default Ember.Component.extend({
     });
 		this.set('interaction', this.get('theInteraction'));
 		this.set('buttonLabel',this.buttonLabels[this.interaction]);
+		this.set('root',this.get('root'));
+		//console.log(this.root);
   },
   actions: {
 		setPcs() {
@@ -151,7 +154,7 @@ export default Ember.Component.extend({
 			this.set('pcs', thePcs);
 		},
     passPcs() {
-		  return this.pcs;
+		  return [this.pcs, this.root];
     },
 		showTheSC(setInfo){
 			if (setInfo.set == "{undefined}") {
