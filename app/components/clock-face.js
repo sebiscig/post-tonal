@@ -1,6 +1,5 @@
 import Ember from 'ember';
 
-
 /*================ Helper functions ================*/
 
 var getPcs = function ($pcsOnClock) {
@@ -74,7 +73,7 @@ var makePcLine = function(pcNumber, rotation) {
 /*========= Make the dots that represent pcs =========*/
 
 var makePcDot = function(pcNumber, rotation) {
-  //<circle id="_0" cx="405" cy="90" r='15' fill="black" stroke="black" transform="rotate (0 405 390)"/>
+
 	var theNewGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
   var theDot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
 	var theErrorCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
@@ -174,22 +173,15 @@ export default Ember.Component.extend({
 					} else {
 						theRoots = setInfo.roots[0].replace(' up', '&uarr;').replace(' down', '&darr;')
 					}
-						//'&darr;'
-						//console.log(item);
 						var theTSpan = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
 						theTSpan.setAttribute('class', 'new');
 
-						//Ember.$("#textline-1").append('tspan');
 						Ember.$("#textline-1").append(theTSpan);
 
 						Ember.$("#textline-1 tspan.new").attr('baseline-shift', '-10');
 						Ember.$("#textline-1 tspan.new").html(theRoots);
 
 						Ember.$("#textline-1 tspan.new").removeClass('new');
-
-
-						//Ember.$("#textline-1").append('tspan')
-
 				}
 			}
 		},

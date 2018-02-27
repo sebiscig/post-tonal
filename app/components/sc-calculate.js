@@ -332,7 +332,6 @@ export default Ember.Component.extend({
 
     }, quizzer() {
       var theSC =  SC_calculate(this.get('thePcs')());
-      //console.log(this.get('thePcs')());
       this.sendAction('action', 'showAnswer', theSC)
     }
   }
