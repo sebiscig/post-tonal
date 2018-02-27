@@ -28,23 +28,30 @@ import Ember from 'ember';
      var set_integer = binary_to_integer (bin_set_rep);
      var inverted_set_integer = inverted_binary_to_integer (bin_set_rep);
 
-     var SC_integer_and_form = {};
-     SC_integer_and_form = sc_integer_and_form (set_integer, inverted_set_integer);
+     var scInfo = {};
+     scInfo = getScInfo (set_integer, inverted_set_integer);
 
-     SC_representative = create_SC (SC_integer_and_form.sc_integer);
+     SC_representative = create_SC (scInfo.sc_integer);
 
-  	 var pcSet = '{';
-     for (var i = 0; i < pc_set_in.length - 1; i++) { pcSet += pc_set_in[i] + ", ";}
-  	 pcSet += pc_set_in[(pc_set_in.length - 1)] + "}";
+
+
+  	 var pcSet = '{' + pc_set_in.split('').join(', ') + '}';
      var primeForm = "[" + SC_representative + "]";
-       var IC_vector = "";
-       IC_vector = '[' + IC_vec_create (SC_representative) + ']';
+     var IC_vector = "";
+     IC_vector = '[' + IC_vec_create (SC_representative) + ']';
+     var roots = [];
+     if (getRoot) {
+       roots = findRoots(pc_set_in, SC_representative, scInfo);
+     }
+
+
 
 
      var returnObject =  {
        'set': pcSet,
        'sc': primeForm,
-       "icv": IC_vector
+       "icv": IC_vector,
+       "roots": (roots.length > 0) ? roots : ''
      };
      return returnObject;
 
@@ -109,31 +116,37 @@ var inverted_binary_to_integer = function (binary_in)
 
 /*=================================================================*/
 
-var smallestInteger = function (integerIn) {
+var tnClassIntAndDofS = function (integerIn) {
   var smallest = integerIn;
+  var DofS = 1;
   var temp00;
   for (var i = 1; i < 12; i++)
   {
       temp00 = integerIn*Math.pow(2,i)%4095;
       if ( (temp00 <= smallest) ) {
+        if (temp00 == smallest) {DofS++;}
         smallest = temp00;
+        //if
       }
   }
-  return smallest
+  return [smallest, DofS]
 };
 
 
 /*=================================================================*/
 
-var sc_integer_and_form = function(set_integer, inverted_set_integer)
+var getScInfo = function(set_integer, inverted_set_integer)
 
 {
-    var smallestSetInteger = 0;
-    var smallestInversionInteger = 0;
+    var tnClassInfo = [];
+    var tnClassInfoInvertedSet = [];
     var smallest = 0;
     var inversionIsPrime = false;
-    smallestSetInteger = smallestInteger(set_integer);
-    smallestInversionInteger = smallestInteger(inverted_set_integer);
+    tnClassInfo = tnClassIntAndDofS(set_integer);
+    tnClassInfoInvertedSet = tnClassIntAndDofS(inverted_set_integer);
+    var smallestSetInteger = tnClassInfo[0];
+    var smallestInversionInteger = tnClassInfoInvertedSet[0];
+
     if (smallestSetInteger <= smallestInversionInteger) {
       smallest = smallestSetInteger;
       inversionIsPrime = false;
@@ -145,7 +158,9 @@ var sc_integer_and_form = function(set_integer, inverted_set_integer)
     var returnObject = {
       'sc_integer': smallest,
       'inversionIsPrime': inversionIsPrime,
-      'inversionallySymmetric': (smallestSetInteger == smallestInversionInteger)
+      'inversionallySymmetric': (smallestSetInteger == smallestInversionInteger),
+      'setDofS': tnClassInfo[1],
+      'inversionDofS': tnClassInfoInvertedSet[1]
     }
     return returnObject
 };
@@ -208,11 +223,93 @@ return ret_IC_vec;
 
 /*=================================================================*/
 
+var findRoots = function(setIn, scIn, scInfoIn) {
+
+    var pcsToLetters = ['C','C#','D','D#','E','F','F#','G','G#','A', 'A#', 'B'];
+
+    var setArr = setIn.split('').map(function(item, index) {
+      return pc_to_int(item);
+    });
+    setArr.sort(function(a,b) {
+      return a-b;
+    });
+
+    var scArr = scIn.split('').map(function(item, index) {
+      return pc_to_int(item);
+    });
+
+    var primeFormINT = getInt(scArr, false);
+    var startingPoints = [];
+
+    if (setArr.length == scInfoIn.setDofS ) {
+      setArr.forEach(function(item) {
+        startingPoints.push(pcsToLetters[item] + 'up');
+        startingPoints.push(pcsToLetters[item] + 'down');
+      });
+    }
+
+    if ((scInfoIn.inversionIsPrime) && !(scInfoIn.inversionallySymmetric)) {
+      setArr = setArr.reverse();
+    }
+    startingPoints = getStartingPoints (setArr, primeFormINT, scInfoIn.setDofS, scInfoIn.inversionIsPrime)
+    if (scInfoIn.inversionallySymmetric) {
+      setArr = setArr.reverse();
+      startingPoints = startingPoints.concat(getStartingPoints (setArr, primeFormINT, scInfoIn.inversionDofS, true))
+    }
+
+    return startingPoints;
+
+};
+
+/*=================================================================*/
+var getInt = function(pcSetIn, down) {
+  var theINT = '';
+  for (var i = 0; i < pcSetIn.length -1; i++) {
+    if (down) {
+      theINT += int_to_pc( ((pcSetIn[i] - pcSetIn[i+1] + 12)%12));
+    } else {
+      theINT += int_to_pc(((pcSetIn[i+1]+12) - pcSetIn[i])%12);
+    }
+  }
+  return theINT;
+};
+
+/*=================================================================*/
+var getStartingPoints = function (setArrIn, primeFormINTIn, setDofS, isDown) {
+  var startingPointsOut = [];
+  var pcsToLetters = ['C','C#','D','D#','E','F','F#','G','G#','A', 'A#', 'B'];
+
+  for (var i = 0; i < setArrIn.length; i++) {
+    var tempInt = getInt(setArrIn, isDown);
+
+    if (tempInt == primeFormINTIn) {
+      startingPointsOut.push(pcsToLetters[setArrIn[0]] + ' ' + ((isDown) ? 'down' : 'up'))
+    }
+    if (startingPointsOut.length == setDofS) {
+      break;
+    } else {
+      setArrIn.push(setArrIn.shift());
+    }
+  }
+  return startingPointsOut;
+};
+
+/*=================================================================*/
 var pc_to_int = function (pc_in)
 {
     if (pc_in == 't') {return 10;}
     else if (pc_in == 'e') {return 11;}
     else {return Number(pc_in);}
+
+};
+
+/*=================================================================*/
+
+var int_to_pc = function (int_in)
+{
+    if (int_in == 10) {return 't';}
+    else if (int_in == 11) {return 'e';}
+    else {return int_in.toString();}
 
 };
 

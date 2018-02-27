@@ -30,7 +30,7 @@ var getHighlightedPcs = function() {
 	return Ember.$(dotSelector).filter(function(){
 			return $(this).find('circle.pc-dot').css('display') == 'block';
 		});
-	//return $highlightedPcs;
+
 };
 
 /*=========================== Drawing SVG ===========================*/
@@ -142,7 +142,6 @@ export default Ember.Component.extend({
 		this.set('interaction', this.get('theInteraction'));
 		this.set('buttonLabel',this.buttonLabels[this.interaction]);
 		this.set('root',this.get('root'));
-		//console.log(this.root);
   },
   actions: {
 		setPcs() {
@@ -163,16 +162,44 @@ export default Ember.Component.extend({
 			} else {
 				Ember.$("#textline-0").text('set ' + setInfo.set + ',');
 				Ember.$("#textline-1").text('prime form ' + setInfo.sc);
+
+				if (this.root) {
+					var theRoots = '';
+					if (setInfo.roots.length > 1) {
+						setInfo.roots.forEach(function(item) {
+							theRoots += item.replace(' up', '&uarr;').replace(' down', '&darr;') + ' ';
+						});
+						theRoots = theRoots.substring(0, theRoots.length - 1).split(' ').join (', ');
+
+					} else {
+						theRoots = setInfo.roots[0].replace(' up', '&uarr;').replace(' down', '&darr;')
+					}
+						//'&darr;'
+						//console.log(item);
+						var theTSpan = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+						theTSpan.setAttribute('class', 'new');
+
+						//Ember.$("#textline-1").append('tspan');
+						Ember.$("#textline-1").append(theTSpan);
+
+						Ember.$("#textline-1 tspan.new").attr('baseline-shift', '-10');
+						Ember.$("#textline-1 tspan.new").html(theRoots);
+
+						Ember.$("#textline-1 tspan.new").removeClass('new');
+
+
+						//Ember.$("#textline-1").append('tspan')
+
+				}
 			}
 		},
 		showSet(set) {
-			var prettySet = 'set {'
+			var prettySet = 'set {' + set.split('').join(', ') + '}';
 			var circlesSelector = "g#pc-circles circle";
 			Ember.$("g#pc-circles circle").css('display', 'none');
 			for (var i=0; i < set.length; i++) {
 				var selector = circlesSelector + "#_"+set[i];
 				Ember.$(selector).css('display', 'block');
-				prettySet += (i < set.length - 1) ? set[i] + ', ' : set[i] + '}'
 			}
 			Ember.$("#textline-1").text('');
 			Ember.$("#textline-0").text(prettySet);
