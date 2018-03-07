@@ -1,7 +1,10 @@
 import Ember from 'ember';
 
-var make_matrix = function () {
-	var row_in = document.getElementById("row").value;
+var make_matrix = function (row_in, isPcInts) {
+	console.log(isPcInts);
+	//var row_in = document.getElementById("row").value;
+	//
+
 	var ret_matrix = "";
 	var row_arr = row_arr_maker (row_in);
 
@@ -11,7 +14,7 @@ var make_matrix = function () {
 		{
 			var temp_matrix = matrix_array_maker (row_arr);
 
-			ret_matrix = matrix_table_maker (temp_matrix);
+			ret_matrix = matrix_table_maker (temp_matrix, isPcInts);
 		}
 
     return ret_matrix;
@@ -37,13 +40,13 @@ var matrix_array_maker = function (row_arr_in) {
 
 /*=================================================================*/
 
-var matrix_table_maker = function (matrix_arr_in) {
+var matrix_table_maker = function (matrix_arr_in, isPcInts) {
 
 	var ret_table = "<table cellspacing = "+'"'+"5"+'"'+"><tr><td class=" + '"' + "noborder" + '"' + "></td>";
 
 	for (var i = 0; i < 12; i++)
 	{
-		ret_table += "<td class=" + '"' + "noborder" + '"' + ">I<sub>" + pcint_to_char(matrix_arr_in[0][i]) + "</sub></td>";
+		ret_table += "<td class=" + '"' + "noborder" + '"' + ">I<sub>" + pcint_to_char(matrix_arr_in[0][i], true) + "</sub></td>";
 	}
 
 	ret_table += "</tr>";
@@ -51,18 +54,18 @@ var matrix_table_maker = function (matrix_arr_in) {
 	for (var i = 0; i < 11; i++)
 	{
     var trOpening = i%2 == 0 ? '<tr class="colored">' : '<tr>';
-		ret_table += trOpening +"<td class=" + '"' + "noborder" + '"' + ">P<sub>" + pcint_to_char(matrix_arr_in[i][0]) + "</sub></td>";
+		ret_table += trOpening +"<td class=" + '"' + "noborder" + '"' + ">P<sub>" + pcint_to_char(matrix_arr_in[i][0], true) + "</sub></td>";
 		for (var j = 0; j < 12; j++)
 		{
-			ret_table += '<td class="clickable" row="' +i.toString() + '" column="' + j.toString() + '">' + pcint_to_char(matrix_arr_in[i][j]) + "</td> ";
+			ret_table += '<td class="clickable" row="' +i.toString() + '" column="' + j.toString() + '">' + pcint_to_char(matrix_arr_in[i][j], isPcInts) + "</td> ";
 		}
 		ret_table += "</tr>";
 	}
 
-	ret_table += "<tr><td class=" + '"' + "noborder" + '"' + ">P<sub>" + pcint_to_char(matrix_arr_in[i][0]) + "</sub></td>";
+	ret_table += "<tr><td class=" + '"' + "noborder" + '"' + ">P<sub>" + pcint_to_char(matrix_arr_in[i][0], true) + "</sub></td>";
 	for (var j = 0; j < 12; j++)
 	{
-		ret_table += '<td row="11" class="clickable" column="' + j.toString()+'">' + pcint_to_char(matrix_arr_in[11][j]) + "</td> ";
+		ret_table += '<td row="11" class="clickable" column="' + j.toString()+'">' + pcint_to_char(matrix_arr_in[11][j], isPcInts) + "</td> ";
 	}
 	ret_table += "</tr></table>";
 
@@ -73,16 +76,20 @@ var matrix_table_maker = function (matrix_arr_in) {
 
 /*=================================================================*/
 
-var pcint_to_char = function(pcint_in) {
-
-	if (pcint_in == 10) {return 't';}
-	else if (pcint_in == 11) {return 'e';}
-	else {return pcint_in;}
+var pcint_to_char = function(pcint_in, isPcInts) {
+	var pcLetterNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+	if (isPcInts) {
+		if (pcint_in == 10) {return 't';}
+		else if (pcint_in == 11) {return 'e';}
+		else {return pcint_in;}
+	} else {
+		return pcLetterNames[pcint_in]
+	}
 };
 
 /*=================================================================*/
 
-var row_arr_maker = function (row_in) {
+var row_arr_maker = function (row_in, isPcInts) {
 
 	var ret_row = "";
 	var row_arr = new Array (12);
@@ -500,6 +507,7 @@ function tableHandler()  {
 			string += $(this).text();
 		});
 		var sortedString = string.split('').sort().join('');
+		console.log(sortedString);
 
 		if (nowBolded.length > 1) {
 			var attribute = getAttribute (nowBolded);
@@ -540,10 +548,13 @@ export default Ember.Component.extend({
   serialStuffIsVisible: false,
 	twelveByMatrixIsVisible: false,
 	hexAreasIsVisible: false,
+	isPcInts: true,
   actions: {
     twelveByMatrix() {
+			//console.log(Ember.$('input[name="isPcInts"]:checked').val());
+			//this.set('isPcInts', (Ember.$('input[name="isPcInts"]:checked').val()) == 'true');
       var row = this.$("#row").val();
-      var matrix = make_matrix(row);
+      var matrix = make_matrix(row, this.isPcInts);
 			if (!this.serialStuffIsVisible) {
 				this.toggleProperty('serialStuffIsVisible');
 				this.$("#serial-stuff").css('display', 'inline-block');
@@ -551,6 +562,7 @@ export default Ember.Component.extend({
 			this.set('twelveByMatrixIsVisible', true);
 			this.$("#twelve-by-matrix").css('display', 'inline-block')
 			this.$("#twelve-by-target").html(matrix);
+			//radioButtonHandler();
 			tableHandler();
     },
 		hexAreas() {
