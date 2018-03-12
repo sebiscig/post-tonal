@@ -299,6 +299,11 @@ g#pc-circles circle {
 g.note {
   display: none;
 }
+
+text#textline-1 {
+  max-width: 25px;
+  height: 15em;
+}
 /* notater */
 div#notaterWrapper{
 
@@ -360,6 +365,15 @@ span.sharp {
     font-family: 'Bravura';
     content: "\266F";
   }
+}
+
+tspan.bravura {
+    font-family: 'Bravura';
+}
+
+tspan.subscript {
+  baseline-shift: -10;
+
 }
 
 span.flat {

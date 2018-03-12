@@ -168,17 +168,17 @@ export default Ember.Component.extend({
 						setInfo.roots.forEach(function(item) {
 							theRoots += item.replace(' up', '&uarr;').replace(' down', '&darr;') + ' ';
 						});
-						theRoots = theRoots.substring(0, theRoots.length - 1).split(' ').join (', ');
+						theRoots = theRoots.substring(0, theRoots.length - 1).split(' ').join (',\n').replace(/#/g, '<tspan class="bravura subscript">&#x266F;</tspan>');
 
 					} else {
-						theRoots = setInfo.roots[0].replace(' up', '&uarr;').replace(' down', '&darr;')
+						theRoots = setInfo.roots[0].replace(' up', '&uarr;').replace(' down', '&darr;').replace('#', '<tspan class="bravura subscript">&#x266F;</tspan>')
 					}
 						var theTSpan = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
-						theTSpan.setAttribute('class', 'new');
+						theTSpan.setAttribute('class', 'new subscript');
 
 						Ember.$("#textline-1").append(theTSpan);
 
-						Ember.$("#textline-1 tspan.new").attr('baseline-shift', '-10');
+						//Ember.$("#textline-1 tspan.new").attr('baseline-shift', '-10');
 						Ember.$("#textline-1 tspan.new").html(theRoots);
 
 						Ember.$("#textline-1 tspan.new").removeClass('new');
