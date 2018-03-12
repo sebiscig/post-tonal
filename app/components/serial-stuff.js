@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
-var make_matrix = function (row_in, isPcInts) {
-	console.log(isPcInts);
+var make_matrix = function (row_in, isLetterNames) {
+	//console.log(isPcInts);
 	//var row_in = document.getElementById("row").value;
 	//
 
@@ -14,7 +14,7 @@ var make_matrix = function (row_in, isPcInts) {
 		{
 			var temp_matrix = matrix_array_maker (row_arr);
 
-			ret_matrix = matrix_table_maker (temp_matrix, isPcInts);
+			ret_matrix = matrix_table_maker (temp_matrix, isLetterNames);
 		}
 
     return ret_matrix;
@@ -40,13 +40,15 @@ var matrix_array_maker = function (row_arr_in) {
 
 /*=================================================================*/
 
-var matrix_table_maker = function (matrix_arr_in, isPcInts) {
+var matrix_table_maker = function (matrix_arr_in, isLetterNames) {
+	//var spacing = (isLetterNames) ? '150' : '5'
+	//console.log(spacing);
 
-	var ret_table = "<table cellspacing = "+'"'+"5"+'"'+"><tr><td class=" + '"' + "noborder" + '"' + "></td>";
+	var ret_table = '<table cellspacing="5"><tr><td class="noborder"></td>';
 
 	for (var i = 0; i < 12; i++)
 	{
-		ret_table += "<td class=" + '"' + "noborder" + '"' + ">I<sub>" + pcint_to_char(matrix_arr_in[0][i], true) + "</sub></td>";
+		ret_table += "<td class=" + '"' + "noborder" + '"' + ">I<sub>" + pcint_to_char(matrix_arr_in[0][i], false) + "</sub></td>";
 	}
 
 	ret_table += "</tr>";
@@ -54,18 +56,18 @@ var matrix_table_maker = function (matrix_arr_in, isPcInts) {
 	for (var i = 0; i < 11; i++)
 	{
     var trOpening = i%2 == 0 ? '<tr class="colored">' : '<tr>';
-		ret_table += trOpening +"<td class=" + '"' + "noborder" + '"' + ">P<sub>" + pcint_to_char(matrix_arr_in[i][0], true) + "</sub></td>";
+		ret_table += trOpening +"<td class=" + '"' + "noborder" + '"' + ">P<sub>" + pcint_to_char(matrix_arr_in[i][0], false) + "</sub></td>";
 		for (var j = 0; j < 12; j++)
 		{
-			ret_table += '<td class="clickable" row="' +i.toString() + '" column="' + j.toString() + '">' + pcint_to_char(matrix_arr_in[i][j], isPcInts) + "</td> ";
+			ret_table += '<td class="clickable" row="' +i.toString() + '" column="' + j.toString() + '">' + pcint_to_char(matrix_arr_in[i][j], isLetterNames) + "</td> ";
 		}
 		ret_table += "</tr>";
 	}
 
-	ret_table += "<tr><td class=" + '"' + "noborder" + '"' + ">P<sub>" + pcint_to_char(matrix_arr_in[i][0], true) + "</sub></td>";
+	ret_table += "<tr><td class=" + '"' + "noborder" + '"' + ">P<sub>" + pcint_to_char(matrix_arr_in[i][0], false) + "</sub></td>";
 	for (var j = 0; j < 12; j++)
 	{
-		ret_table += '<td row="11" class="clickable" column="' + j.toString()+'">' + pcint_to_char(matrix_arr_in[11][j], isPcInts) + "</td> ";
+		ret_table += '<td row="11" class="clickable" column="' + j.toString()+'">' + pcint_to_char(matrix_arr_in[11][j], isLetterNames) + "</td> ";
 	}
 	ret_table += "</tr></table>";
 
@@ -76,15 +78,36 @@ var matrix_table_maker = function (matrix_arr_in, isPcInts) {
 
 /*=================================================================*/
 
-var pcint_to_char = function(pcint_in, isPcInts) {
-	var pcLetterNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
-	if (isPcInts) {
+var pcint_to_char = function(pcint_in, isLetterNames) {
+	var pcLetterNames = ['C', 'C<span class="sharp"></span>', 'D', 'D<span class="sharp"></span>', 'E', 'F', 'F<span class="sharp"></span>', 'G', 'G<span class="sharp"></span>', 'A', 'A<span class="sharp"></span>', 'B']
+	if (isLetterNames) {
+		return pcLetterNames[pcint_in]
+	} else {
 		if (pcint_in == 10) {return 't';}
 		else if (pcint_in == 11) {return 'e';}
 		else {return pcint_in;}
-	} else {
-		return pcLetterNames[pcint_in]
+
 	}
+};
+
+/*=================================================================*/
+
+var letterToPcInt = function(letterNameIn) {
+	var mapping = {
+		'C': '0',
+		'C<span class="sharp"></span>': '1',
+		'D': '2',
+		'D<span class="sharp"></span>': '3',
+		'E': '4',
+		'F': '5',
+		'F<span class="sharp"></span>': '6',
+		'G': '7',
+		'G<span class="sharp"></span>': '8',
+		'A': '9',
+		'A<span class="sharp"></span>': 't',
+		'B': 'e'
+	};
+	return mapping[letterNameIn];
 };
 
 /*=================================================================*/
@@ -428,11 +451,11 @@ var getAttribute = function (boldedCellsIn) {
 
 /*=================================================================*/
 
-var getLocationsOfSegment = function (rowIn, nowBoldedIn, indexIn, sortedStringIn) {
+var getLocationsOfSegment = function (rowIn, nowBoldedIn, indexIn, sortedStringIn, isLetterNames) {
 	var ops = [];
 	var tempString = '';
 	rowIn.each(function () {
-		tempString += $(this).text();
+		tempString += isLetterNames ? letterToPcInt($(this).text()): $(this).text();
 	});
 	for (var i = 0; i < 13 - nowBoldedIn.length; i++) {
 		var segment = '';
@@ -463,7 +486,7 @@ var addTheClass = function (opsArrayIn, nowBoldedIn, attributeIn, otherAttribute
 
 /*=================================================================*/
 
-function tableHandler()  {
+function tableHandler(isLetterNames)  {
 	$("#twelve-by-matrix td.clickable").on('click', function() {
 
 		var boldedCells = $("td").filter(function (){
@@ -504,10 +527,11 @@ function tableHandler()  {
 		});
 		var string = '';
 		nowBolded.each(function() {
-			string += $(this).text();
+
+			string += isLetterNames ? letterToPcInt($(this).text()): $(this).text();
 		});
 		var sortedString = string.split('').sort().join('');
-		console.log(sortedString);
+		//console.log(sortedString);
 
 		if (nowBolded.length > 1) {
 			var attribute = getAttribute (nowBolded);
@@ -519,8 +543,9 @@ function tableHandler()  {
 				var temp = $("td").filter(function() {
 					return $(this).attr(attribute) == i.toString();
 				});
+				//console.log(temp);
 
-				var theArray = getLocationsOfSegment (temp, nowBolded, i, sortedString);
+				var theArray = getLocationsOfSegment (temp, nowBolded, i, sortedString, isLetterNames);
 				if (theArray.length > 0) {
 					attributeOps = attributeOps.concat(theArray);
 				}
@@ -529,7 +554,7 @@ function tableHandler()  {
 					return $(this).attr(otherAttribute) == i.toString();
 				});
 
-				var theOtherArray = getLocationsOfSegment (tempOther, nowBolded, i, sortedString);
+				var theOtherArray = getLocationsOfSegment (tempOther, nowBolded, i, sortedString, isLetterNames);
 				if (theOtherArray.length > 0) {
 					otherAttributeOps = otherAttributeOps.concat(theOtherArray);
 				}
@@ -548,13 +573,13 @@ export default Ember.Component.extend({
   serialStuffIsVisible: false,
 	twelveByMatrixIsVisible: false,
 	hexAreasIsVisible: false,
-	isPcInts: true,
+	isLetterNames: false,
   actions: {
     twelveByMatrix() {
 			//console.log(Ember.$('input[name="isPcInts"]:checked').val());
-			//this.set('isPcInts', (Ember.$('input[name="isPcInts"]:checked').val()) == 'true');
+			this.set('isLetterNames', (Ember.$('input[name="isLetterNames"]:checked').val()) == 'true');
       var row = this.$("#row").val();
-      var matrix = make_matrix(row, this.isPcInts);
+      var matrix = make_matrix(row, this.isLetterNames);
 			if (!this.serialStuffIsVisible) {
 				this.toggleProperty('serialStuffIsVisible');
 				this.$("#serial-stuff").css('display', 'inline-block');
@@ -563,7 +588,7 @@ export default Ember.Component.extend({
 			this.$("#twelve-by-matrix").css('display', 'inline-block')
 			this.$("#twelve-by-target").html(matrix);
 			//radioButtonHandler();
-			tableHandler();
+			tableHandler(this.isLetterNames);
     },
 		hexAreas() {
 			var row = this.$("#row").val();

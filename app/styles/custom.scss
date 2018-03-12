@@ -344,3 +344,28 @@ div#notaterWrapper{
     width: 400px;
   }
 }
+/*Music fonts*/
+
+@font-face {
+    font-family: 'Bravura';
+    src: url('_fonts/BravuraText.eot'); /* IE9 Compat Modes */
+    src: //url('_fonts/Bravura.woff2') format('woff2'), /* Modern Browsers */
+         url('_fonts/BravuraText.woff') format('woff'); /* Modern Browsers */
+}
+
+
+span.sharp {
+  margin-left: 1px;
+  &:after {
+    font-family: 'Bravura';
+    content: "\266F";
+  }
+}
+
+span.flat {
+  margin-left: 1px;
+  &:after {
+    font-family: 'Bravura';
+    content: "\266d";
+  }
+}
