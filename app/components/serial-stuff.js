@@ -1,9 +1,14 @@
 import Ember from 'ember';
 
 var make_matrix = function (row_in, isLetterNames) {
-	//console.log(isPcInts);
-	//var row_in = document.getElementById("row").value;
-	//
+
+	var webernOp25 = ['7436152et098', 't7694852130e', 'e87t59632410', '85472630e1t9', '1t907e854632', '9658374102et', '098e6t743521', '30e291t76854', '4103t2e87965', '2et180965743', '5214e3098t76', '6325041t9e87', '7te819034256', '4785t6901e23', '3674958e0t12', '69t708e23145', '14527369t8e0', '5896e7t12034', '2563847te901', 'e2305147869t', 't12e40367589', '0341625897te', '901t3e256478', '8e092t145367'];
+
+	var rowInRetrograde = row_in.split('').reverse().join('');
+
+	if ((webernOp25.indexOf(row_in) > -1) || (webernOp25.indexOf(rowInRetrograde) > -1)) {
+		return 'Please complete the matrix for Assignment #7 on your own.'
+	}
 
 	var ret_matrix = "";
 	var row_arr = row_arr_maker (row_in);
