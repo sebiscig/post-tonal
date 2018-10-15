@@ -1,13 +1,13 @@
-/* eslint-env node */
 'use strict';
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
+  //var nodeSass = require('node-sass');
   let app = new EmberApp(defaults, {
     // Add options here
   });
-  app.import('bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js');
+
   // Use `app.import` to add additional libraries to the generated
   // output files.
   //

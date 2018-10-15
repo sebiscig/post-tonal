@@ -1,28 +1,56 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import $ from 'jquery';
+import config from 'post-tonal/config/environment';
 
 var make_matrix = function (row_in, isLetterNames) {
-
-	var webernOp25 = ['7436152et098', 't7694852130e', 'e87t59632410', '85472630e1t9', '1t907e854632', '9658374102et', '098e6t743521', '30e291t76854', '4103t2e87965', '2et180965743', '5214e3098t76', '6325041t9e87', '7te819034256', '4785t6901e23', '3674958e0t12', '69t708e23145', '14527369t8e0', '5896e7t12034', '2563847te901', 'e2305147869t', 't12e40367589', '0341625897te', '901t3e256478', '8e092t145367'];
-
-	var rowInRetrograde = row_in.split('').reverse().join('');
-
-	if ((webernOp25.indexOf(row_in) > -1) || (webernOp25.indexOf(rowInRetrograde) > -1)) {
-		return 'Please complete the matrix for Assignment #7 on your own.'
+	var blacklistedInts = makeIntsBlacklist(config.blacklistedRows);
+	var INTofRow = rowInt(row_in).join(' ');
+	if (blacklistedInts.indexOf(INTofRow) > -1) {
+		return 'Please complete this particular matrix on your own.'
 	}
-
 	var ret_matrix = "";
 	var row_arr = row_arr_maker (row_in);
 
-	if (row_arr.length > 12) {ret_matrix = row_arr;}
+	if (row_arr.length > 12) {
+		ret_matrix = row_arr;
+	} else if (row_arr.length == 12) {
+		var temp_matrix = matrix_array_maker (row_arr);
+		ret_matrix = matrix_table_maker (temp_matrix, isLetterNames);
+	}
+  return ret_matrix;
+};
 
-	else if (row_arr.length == 12)
-		{
-			var temp_matrix = matrix_array_maker (row_arr);
-
-			ret_matrix = matrix_table_maker (temp_matrix, isLetterNames);
+/*=================================================================*/
+var makeIntsBlacklist = function(rowsIn) {
+	var INTarr = [];
+	var INTofIarr = [];
+	var blackList = [];
+	for (var i = 0; i < rowsIn.length; i++) {
+		INTarr = rowInt(rowsIn[i]);
+		var IntReverse = INTarr.slice().reverse();
+		blackList.push(INTarr.join(' '));
+		blackList.push(IntReverse.join(' '));
+		INTofIarr = [];
+		for (var j = 0; j < INTarr.length; j++) {
+			INTofIarr.push((12 - INTarr[j])%12);
 		}
+		var IntReverse = INTofIarr.slice().reverse();
+		blackList.push(INTofIarr.join(' '));
+		blackList.push(IntReverse.join(' '));
 
-    return ret_matrix;
+	}
+	return blackList;
+
+};
+
+/*=================================================================*/
+var rowInt = function(rowIn) {
+	var theINT = [];
+	for (var i = 1; i < rowIn.length; i++) {
+		theINT.push(((pc_to_int(rowIn[i]) - pc_to_int(rowIn[i-1]))+12)%12);
+	}
+	return theINT;
+
 };
 
 /*=================================================================*/
@@ -159,7 +187,11 @@ var IH_combo_test = function (row_in)
 
 
 {
-	//var row_in = document.getElementById("row").value;
+	var blacklistedInts = makeIntsBlacklist(config.blacklistedRows);
+	var INTofRow = rowInt(row_in).join(' ');
+	if (blacklistedInts.indexOf(INTofRow) > -1) {
+		return 'Please complete this particular set of hexachordal areas on your own.'
+	}
 	var hex_combo_answer = "";
 
 	var row_arr = row_arr_maker (row_in);
@@ -574,7 +606,7 @@ function tableHandler(isLetterNames)  {
 
 /*=================================================================*/
 
-export default Ember.Component.extend({
+export default Component.extend({
   serialStuffIsVisible: false,
 	twelveByMatrixIsVisible: false,
 	hexAreasIsVisible: false,
@@ -582,7 +614,7 @@ export default Ember.Component.extend({
   actions: {
     twelveByMatrix() {
 			//console.log(Ember.$('input[name="isPcInts"]:checked').val());
-			this.set('isLetterNames', (Ember.$('input[name="isLetterNames"]:checked').val()) == 'true');
+			this.set('isLetterNames', ($('input[name="isLetterNames"]:checked').val()) == 'true');
       var row = this.$("#row").val();
       var matrix = make_matrix(row, this.isLetterNames);
 			if (!this.serialStuffIsVisible) {

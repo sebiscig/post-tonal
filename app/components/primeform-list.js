@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import $ from 'jquery';
 /*================================ Functions for creating list ================================*/
 var TnI_SCs = function () {
 	var TnI_sets_arr = new Array (4095);
@@ -90,7 +91,7 @@ var TnI_SCs = function () {
 	var idBase='card-'
     for (var i = 2; i < 9; i++) {
 			var numberOfScs = ((TnI_sets_by_card_array[i].match(/class="primeForm"/g)).length).toString()+ ' ';
-			ret_str02 += '<h3>' + numberOfScs + dictionary[i] + '<sup> <a class="expand" card="'+(i+1).toString()+'"><i class="fa fa-plus"></i></a></sup></h3>';
+			ret_str02 += '<h3>' + numberOfScs + dictionary[i] + '<sup> <a class="expand" card="'+(i+1).toString()+'"><i class="fas fa-plus"></i></a></sup></h3>';
 			ret_str02 +='<div id="' +idBase+((i+1).toString()) + '">';
 			ret_str02 +=  TnI_sets_by_card_array[i] + '</div></div>';
 		}
@@ -232,15 +233,15 @@ var primeFormHandlers = function (){
 };
 
 /*================================ Ember Component ================================*/
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: '',
   didInsertElement() {
     var answer = TnI_SCs();
     var counter = (answer.match(/class="primeForm"/g) || []).length;
-    var display = '<p>List of prime forms<sup><a class="tool-tip" data-toggle="modal" data-target="#prime-form-list-tip"><i class="fa fa-info-circle"></i></a></sup> for trichords through nonachords.</p>';
+    var display = '<p>List of prime forms<sup><a class="tool-tip" data-toggle="modal" data-target="#prime-form-list-tip"><i class="fas fa-info-circle"></i></a></sup> for trichords through nonachords.</p>';
 
     display += answer;
-    Ember.$("#prime-form-list-target").html(display);
+    $("#prime-form-list-target").html(display);
 
     primeFormHandlers();
   },

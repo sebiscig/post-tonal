@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import $ from 'jquery';
 
 /*=================================================================*/
 
-export default Ember.Component.extend({
+export default Component.extend({
 	isVisible: {
 		clock: false,
 		primeForms: false,

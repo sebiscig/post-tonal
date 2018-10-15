@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import $ from 'jquery';
 
 /*=========================== Calculator functions ===========================*/
 /*=================================================================*/
@@ -315,7 +316,7 @@ var int_to_pc = function (int_in)
 
 /*=================================================================*/
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName:  '',
   pcsEntered: [],
   didUpdateAttrs(){

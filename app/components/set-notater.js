@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import $ from 'jquery';
 
 /*=============== Helper Function ===============*/
 var updateSvg = function (lengthIn) {
@@ -19,12 +20,12 @@ var updateSvg = function (lengthIn) {
     theGroup.setAttribute('transform', translate);
     $noteGroups.appendChild(theGroup);
   }
-  var staffLines = Ember.$('.staffLines');
+  var staffLines = $('.staffLines');
   var baseD = staffLines.attr('d').toString();
   var lengthOfLineToReplace = parseFloat(baseD.split(' M')[0].split('h')[1]);
   var newLength =parseFloat(20.5*(i+1)).toString();
   var newD = baseD.split('h'+lengthOfLineToReplace).join('h'+newLength);
-  var $theSvg = Ember.$('div#notaterWrapper svg');
+  var $theSvg = $('div#notaterWrapper svg');
   var theNewViewBox = $theSvg.attr('viewBox').replace(lengthOfLineToReplace, newLength)
   $theSvg.attr('viewBox', theNewViewBox);
 
@@ -34,7 +35,7 @@ var updateSvg = function (lengthIn) {
 };
 
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: '',
   didInsertElement() {
     updateSvg(this.get('length'));
@@ -44,10 +45,10 @@ export default Ember.Component.extend({
   },
   actions: {
     displaySet(setIn) {
-      Ember.$("g.note").css('display', 'none')
+      $("g.note").css('display', 'none')
       for (var i = 0; i < setIn.length; i++){
         var selector = "g#_"+ i.toString() + '.noteGroup g#_' + setIn[i] +'.note';
-        Ember.$(selector).css('display', 'block')
+        $(selector).css('display', 'block')
       }
     }
   }

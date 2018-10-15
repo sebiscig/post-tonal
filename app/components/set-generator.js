@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import $ from 'jquery';
 
 /*=================================================================*/
 var generateCardinality = function () {
@@ -8,7 +9,7 @@ var generateCardinality = function () {
 
 /*=================================================================*/
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: '',
   theSet: [],
   actions: {

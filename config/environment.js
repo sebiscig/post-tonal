@@ -1,5 +1,4 @@
-/* eslint-env node */
-'use strict';
+//'use strict';
 
 module.exports = function(environment) {
   let ENV = {
@@ -7,6 +6,7 @@ module.exports = function(environment) {
     environment,
     rootURL: '/',
     locationType: 'auto',
+    blacklistedRows : ['7436152et098', 't91e20654873'],
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -21,6 +21,8 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+
+
     }
   };
 
@@ -41,6 +43,7 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     ENV.APP.rootElement = '#ember-testing';
+    ENV.APP.autoboot = false;
   }
 
   if (environment === 'production') {

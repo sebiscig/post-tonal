@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import $ from 'jquery';
 
 /*================ Helper functions ================*/
 
@@ -26,7 +27,7 @@ var makePcSet = function(pcsIn) {
 var getHighlightedPcs = function() {
 	var dotSelector = "g#pc-circles g.dotGroup";
 	//var $highlightedPcs =
-	return Ember.$(dotSelector).filter(function(){
+	return $(dotSelector).filter(function(){
 			return $(this).find('circle.pc-dot').css('display') == 'block';
 		});
 
@@ -40,10 +41,10 @@ var makePcLabel = function(pcNumber, rotation, index) {
   var theText = document.createElementNS("http://www.w3.org/2000/svg", "text");
   theG.appendChild(theText);
   theG.setAttribute('class', 'new');
-  var theLabels = Ember.$("g#labels");
+  var theLabels = $("g#labels");
   theLabels.append(theG);
 
-  theG = Ember.$("g#labels").find('g.new');
+  theG = $("g#labels").find('g.new');
 
   var antiRotation = 360 - rotation;
   theG.attr('transform', "rotate(" + rotation + " 405 390)");
@@ -62,7 +63,7 @@ var makePcLine = function(pcNumber, rotation) {
 
   var theLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
   theLine.setAttribute('class', 'new');
-  var theLines = Ember.$("g#pc-lines");
+  var theLines = $("g#pc-lines");
   theLines.append(theLine);
 
   theLine = theLines.find('line.new');
@@ -82,7 +83,7 @@ var makePcDot = function(pcNumber, rotation) {
   theNewGroup.setAttribute('class', 'new');
 	theNewGroup.appendChild(theDot);
 	theNewGroup.appendChild(theErrorCircle);
-  var theDots = Ember.$("g#pc-circles");
+  var theDots = $("g#pc-circles");
   theDots.append(theNewGroup);
 	theNewGroup = theDots.find('g.new');
   theDot = theNewGroup.find('circle.pc-dot');
@@ -111,7 +112,7 @@ var drawClockFace = function(cardinality) {
   }
 };
 /*========= Ember Component definition =========*/
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: '',
 	pcs: [],
 	interaction: '',
@@ -121,22 +122,22 @@ export default Ember.Component.extend({
 	didUpdateAttrs(){
 
 		if (this.interaction=='quizzer') {
-			Ember.$('g#pc-circles circle').css('display', 'none');
-			Ember.$("#textline-0").text('');
-			Ember.$("#textline-1").text('');
+			$('g#pc-circles circle').css('display', 'none');
+			$("#textline-0").text('');
+			$("#textline-1").text('');
 		}
 	},
   didInsertElement() {
 
     drawClockFace(parseInt(this.get('cardinality')));
-    Ember.$("g.dotGroup, g#labels text, g#pc-lines line").on('click', function() {
-      var circleSelector = "g#pc-circles g#" + Ember.$(this).attr('id') + ' circle.pc-dot';
-			var errorSelector = "g#pc-circles g#" + Ember.$(this).attr('id') + ' circle.error-circle';
-      var $theDot = Ember.$(circleSelector);
+    $("g.dotGroup, g#labels text, g#pc-lines line").on('click', function() {
+      var circleSelector = "g#pc-circles g#" + $(this).attr('id') + ' circle.pc-dot';
+			var errorSelector = "g#pc-circles g#" + $(this).attr('id') + ' circle.error-circle';
+      var $theDot = $(circleSelector);
 
       var newDisplay = $theDot.css('display') == 'none' ? 'block' : 'none';
       $theDot.css('display', newDisplay);
-			Ember.$(errorSelector).css('display', 'none')
+			$(errorSelector).css('display', 'none')
     });
 		this.set('interaction', this.get('theInteraction'));
 		this.set('buttonLabel',this.buttonLabels[this.interaction]);
@@ -156,11 +157,11 @@ export default Ember.Component.extend({
     },
 		showTheSC(setInfo){
 			if (setInfo.set == "{undefined}") {
-				Ember.$("#textline-0").text('No pcs on clock face...');
-				Ember.$("#textline-1").text('Add some by clicking around');
+				$("#textline-0").text('No pcs on clock face...');
+				$("#textline-1").text('Add some by clicking around');
 			} else {
-				Ember.$("#textline-0").text('set ' + setInfo.set + ',');
-				Ember.$("#textline-1").text('prime form ' + setInfo.sc);
+				$("#textline-0").text('set ' + setInfo.set + ',');
+				$("#textline-1").text('prime form ' + setInfo.sc);
 
 				if (this.root) {
 					var theRoots = '';
@@ -176,25 +177,25 @@ export default Ember.Component.extend({
 						var theTSpan = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
 						theTSpan.setAttribute('class', 'new subscript');
 
-						Ember.$("#textline-1").append(theTSpan);
+						$("#textline-1").append(theTSpan);
 
-						//Ember.$("#textline-1 tspan.new").attr('baseline-shift', '-10');
-						Ember.$("#textline-1 tspan.new").html(theRoots);
+						//$("#textline-1 tspan.new").attr('baseline-shift', '-10');
+						$("#textline-1 tspan.new").html(theRoots);
 
-						Ember.$("#textline-1 tspan.new").removeClass('new');
+						$("#textline-1 tspan.new").removeClass('new');
 				}
 			}
 		},
 		showSet(set) {
 			var prettySet = 'set {' + set.split('').join(', ') + '}';
 			var circlesSelector = "g#pc-circles circle";
-			Ember.$("g#pc-circles circle").css('display', 'none');
+			$("g#pc-circles circle").css('display', 'none');
 			for (var i=0; i < set.length; i++) {
 				var selector = circlesSelector + "#_"+set[i];
-				Ember.$(selector).css('display', 'block');
+				$(selector).css('display', 'block');
 			}
-			Ember.$("#textline-1").text('');
-			Ember.$("#textline-0").text(prettySet);
+			$("#textline-1").text('');
+			$("#textline-0").text(prettySet);
 		},
     toggleVisibility() {
       this.sendAction('action', 'toggleVisibilities', '');
@@ -209,16 +210,16 @@ export default Ember.Component.extend({
 				return !thePromptPcs.includes($(this).attr('id').replace('_', ''));
 			});
 			if (this.pcs.length == 0) {
-				Ember.$("#textline-0").text('Nothing to check: click ');
-				Ember.$("#textline-1").text('"Trichord" etc. first.');
+				$("#textline-0").text('Nothing to check: click ');
+				$("#textline-1").text('"Trichord" etc. first.');
 			} else if (($wrongHighlights.length == 0) && ($highlightedPcs.length == this.pcs.length)) {
 				this.send('showTheSC', answer);
 			} else if ($highlightedPcs.length < this.pcs.length) {
-				Ember.$("#textline-0").text('Can\'t check yet: set not fully');
-				Ember.$("#textline-1").text('notated on the clockface');
+				$("#textline-0").text('Can\'t check yet: set not fully');
+				$("#textline-1").text('notated on the clockface');
 			} else if ($wrongHighlights.length > 0){
-				Ember.$("#textline-0").text('Error(s) in your integer notation');
-				Ember.$("#textline-1").text('Mistake(s) circled');
+				$("#textline-0").text('Error(s) in your integer notation');
+				$("#textline-1").text('Mistake(s) circled');
 				$wrongHighlights.find('circle.error-circle').css('display', 'block');
 			}
 		}

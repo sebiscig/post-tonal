@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 
 export function logicalTests(params, namedEls) {
   //console.log(namedEls.value, namedEls.comparison)
@@ -19,4 +19,4 @@ export function logicalTests(params, namedEls) {
   }
 }
 
-export default Ember.Helper.helper(logicalTests);
+export default buildHelper(logicalTests);
