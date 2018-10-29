@@ -16,7 +16,7 @@
     {{#if isVisible.clock}}
       <div id="clock-face-wrapper">
         <button type="button" class="close serial-close" {{action 'toggleVisibilities' ''}}>
-          <span aria-hidden="true"><i class="fa fa-times"></i></span>
+          <span aria-hidden="true"> {{fa-icon 'times'}}</span>
         </button>
 
           {{#clock-face cardinality='12' interactive=true action="handleSubcomponents" theInteraction=interaction root=startingPointDirection}}
@@ -28,7 +28,7 @@
     {{#if isVisible.primeForms}}
       <div id="prime-form-list" class="serial-display">
         <button type="button" class="close serial-close" {{action 'toggleVisibilities' ''}}>
-          <span aria-hidden="true"><i class="fa fa-times"></i></span>
+          <span aria-hidden="true"> {{fa-icon 'times'}}</span>
         </button>
         {{#primeform-list action="handleSubcomponents"}}
         {{/primeform-list}}
@@ -38,7 +38,7 @@
     {{#if isVisible.quizzer}}
       <div id="primeform-quizzer" class="serial-display">
         <button type="button" class="close serial-close" {{action 'toggleVisibilities' ''}}>
-          <span aria-hidden="true"><i class="fa fa-times"></i></span>
+          <span aria-hidden="true"> {{fa-icon 'times'}}</span>
         </button>
         {{#primeform-quizzer interaction='quizzer' startingPointDirection=true}}
         {{/primeform-quizzer}}

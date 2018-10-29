@@ -1,5 +1,4 @@
 import Component from '@ember/component';
-import $ from 'jquery';
 
 /*=================================================================*/
 var generateCardinality = function () {

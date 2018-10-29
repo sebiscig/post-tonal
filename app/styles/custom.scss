@@ -260,8 +260,12 @@ div.aRow {
 }
 a.expand {
   @extend .tool-tip;
-  font-size: 1em;
-
+  //font-size: 2em;
+  margin-top: -3em;
+  //line-height: .25em;
+  &:hover {
+    text-decoration: none
+  }
 }
 
 /* clock-face */
@@ -382,4 +386,10 @@ span.flat {
     font-family: 'Bravura';
     content: "\266d";
   }
+}
+.rotated {
+  display: inline-block;
+  //margin-top: -1em;
+  padding-top: .25em;
+  -webkit-transform: rotate(-180deg);
 }

@@ -492,7 +492,7 @@ var getLocationsOfSegment = function (rowIn, nowBoldedIn, indexIn, sortedStringI
 	var ops = [];
 	var tempString = '';
 	rowIn.each(function () {
-		tempString += isLetterNames ? letterToPcInt($(this).text()): $(this).text();
+		tempString += isLetterNames ? letterToPcInt($(this).html().toString()): $(this).text();
 	});
 	for (var i = 0; i < 13 - nowBoldedIn.length; i++) {
 		var segment = '';
@@ -564,12 +564,9 @@ function tableHandler(isLetterNames)  {
 		});
 		var string = '';
 		nowBolded.each(function() {
-
-			string += isLetterNames ? letterToPcInt($(this).text()): $(this).text();
+			string += isLetterNames ? letterToPcInt($(this).html().toString()): $(this).text();
 		});
 		var sortedString = string.split('').sort().join('');
-		//console.log(sortedString);
-
 		if (nowBolded.length > 1) {
 			var attribute = getAttribute (nowBolded);
 			var otherAttribute = attribute == 'column' ? 'row' : 'column';

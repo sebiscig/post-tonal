@@ -1,5 +1,9 @@
 import Component from '@ember/component';
 import $ from 'jquery';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faMinus } from '@fortawesome/free-solid-svg-icons';
+//console.log(faInfoCircle.icon[4]);
 /*================================ Functions for creating list ================================*/
 var TnI_SCs = function () {
 	var TnI_sets_arr = new Array (4095);
@@ -78,7 +82,7 @@ var TnI_SCs = function () {
 		0: 'Singletons',
 		1: 'Dyads',
 		2: 'Trichords',
-		3: 'Tetrachhords',
+		3: 'Tetrachords',
 		4: 'Pentachords',
 		5: 'Hexachords',
 		6: 'Heptachords',
@@ -89,9 +93,11 @@ var TnI_SCs = function () {
 		11: 'Aggregate'
 	}
 	var idBase='card-'
+	console.log(faPlus.icon);
     for (var i = 2; i < 9; i++) {
 			var numberOfScs = ((TnI_sets_by_card_array[i].match(/class="primeForm"/g)).length).toString()+ ' ';
-			ret_str02 += '<h3>' + numberOfScs + dictionary[i] + '<sup> <a class="expand" card="'+(i+1).toString()+'"><i class="fas fa-plus"></i></a></sup></h3>';
+
+			ret_str02 += '<h3>' + numberOfScs + dictionary[i] + '<sub> <a class="expand" card="'+(i+1).toString()+'"><svg style="width: 2.5%" viewbox="0 0 '+faPlus.icon[0]+ ' ' + faPlus.icon[1]+'"><path d="'+faPlus.icon[4]+'"></path></svg></a></sub></h3>';
 			ret_str02 +='<div id="' +idBase+((i+1).toString()) + '">';
 			ret_str02 +=  TnI_sets_by_card_array[i] + '</div></div>';
 		}
@@ -221,12 +227,14 @@ var primeFormHandlers = function (){
 			$(this).removeClass('activated');
 			$members.css('display', 'none');
 			$primeForms.removeClass('focus');
-			$(this).find('i.fa').removeClass('fa-minus').addClass('fa-plus');
+			$(this).find('svg').attr('d', faPlus.icon[4])
+			//$(this).find('i.fa').removeClass('fa-minus').addClass('fa-plus');
 		} else {
 			$(this).addClass('activated');
 			$members.css('display', 'inline-block');
 			$primeForms.addClass('focus');
-			$(this).find('i.fa').removeClass('fa-plus').addClass('fa-minus');
+			$(this).find('svg').attr('d', faMinus.icon[4])
+			//$(this).find('i.fa').removeClass('fa-plus').addClass('fa-minus');
 		}
 
 	});
@@ -235,13 +243,15 @@ var primeFormHandlers = function (){
 /*================================ Ember Component ================================*/
 export default Component.extend({
   tagName: '',
+	answer: TnI_SCs(),
+	display: '<p>List of prime forms<sup><a class="tool-tip small" data-toggle="modal" data-target="#prime-form-list-tip"><svg style="width: 2.5%" viewbox="0 0 512 512"><path d="' + faInfoCircle.icon[4]+'"></path</svg></a></sup> for trichords through nonachords.</p>',
   didInsertElement() {
-    var answer = TnI_SCs();
-    var counter = (answer.match(/class="primeForm"/g) || []).length;
-    var display = '<p>List of prime forms<sup><a class="tool-tip" data-toggle="modal" data-target="#prime-form-list-tip"><i class="fas fa-info-circle"></i></a></sup> for trichords through nonachords.</p>';
+  //  var answer = TnI_SCs();
+  //  var counter = (answer.match(/class="primeForm"/g) || []).length;
+    this.set('display', this.display+this.answer);
 
-    display += answer;
-    $("#prime-form-list-target").html(display);
+    //display += answer;
+    $("#prime-form-list-target").html(this.display);
 
     primeFormHandlers();
   },

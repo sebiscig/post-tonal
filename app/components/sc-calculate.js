@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import $ from 'jquery';
+
 
 /*=========================== Calculator functions ===========================*/
 /*=================================================================*/
