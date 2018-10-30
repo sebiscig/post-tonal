@@ -26,7 +26,6 @@ var makePcSet = function(pcsIn) {
 
 var getHighlightedPcs = function() {
 	var dotSelector = "g#pc-circles g.dotGroup";
-	//var $highlightedPcs =
 	return $(dotSelector).filter(function(){
 			return $(this).find('circle.pc-dot').css('display') == 'block';
 		});
@@ -178,10 +177,7 @@ export default Component.extend({
 						theTSpan.setAttribute('class', 'new subscript');
 
 						$("#textline-1").append(theTSpan);
-
-						//$("#textline-1 tspan.new").attr('baseline-shift', '-10');
 						$("#textline-1 tspan.new").html(theRoots);
-
 						$("#textline-1 tspan.new").removeClass('new');
 				}
 			}
