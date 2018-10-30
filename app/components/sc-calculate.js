@@ -14,6 +14,7 @@ import Component from '@ember/component';
       pc_set_in += thePcs[i];
     }
 
+
     var SC_representative = "";
     var ret_output = "";
 
@@ -24,6 +25,7 @@ import Component from '@ember/component';
    var sum = 0;
    for (var i = 0; i < bin_set_rep.length; i++) {sum += Number (bin_set_rep[i]);}
 
+
      var set_integer = binary_to_integer (bin_set_rep);
      var inverted_set_integer = inverted_binary_to_integer (bin_set_rep);
 
@@ -31,6 +33,8 @@ import Component from '@ember/component';
      scInfo = getScInfo (set_integer, inverted_set_integer);
 
      SC_representative = create_SC (scInfo.sc_integer);
+
+
 
   	 var pcSet = '{' + pc_set_in.split('').join(', ') + '}';
      var primeForm = "[" + SC_representative + "]";
@@ -41,6 +45,9 @@ import Component from '@ember/component';
        roots = findRoots(pc_set_in, SC_representative, scInfo);
      }
 
+
+
+
      var returnObject =  {
        'set': pcSet,
        'sc': primeForm,
@@ -48,6 +55,7 @@ import Component from '@ember/component';
        "roots": (roots.length > 0) ? roots : ''
      };
      return returnObject;
+
 };
 
 /*=================================================================*/
@@ -57,6 +65,7 @@ var make_bin_rep_pc_set  = function (pc_set_string_in)
 {
     var pc_set_arr = new Array(12);
     var temp = 0;
+
 
     for (var i = 0; i < 12; i++) {pc_set_arr[i] = 0;}
 
@@ -118,6 +127,7 @@ var tnClassIntAndDofS = function (integerIn) {
       if ( (temp00 <= smallest) ) {
         if (temp00 == smallest) {DofS++;}
         smallest = temp00;
+        //if
       }
   }
   return [smallest, DofS]
@@ -188,6 +198,7 @@ var create_SC = function (integer_in)
 var IC_vec_create  = function (set_in)
 
 {
+
 	var IC_vec = new Array (6);
 	var temp = 0;
 	var ret_IC_vec = "";
@@ -202,6 +213,7 @@ var IC_vec_create  = function (set_in)
 			else {IC_vec[(11-temp)]++;}
 		}
 	}
+
 
 for (var i = 0; i < 6; i++) {ret_IC_vec += IC_vec[i];}
 

@@ -74,6 +74,9 @@ var matrix_array_maker = function (row_arr_in) {
 /*=================================================================*/
 
 var matrix_table_maker = function (matrix_arr_in, isLetterNames) {
+	//var spacing = (isLetterNames) ? '150' : '5'
+	//console.log(spacing);
+
 	var ret_table = '<table cellspacing="5"><tr><td class="noborder"></td>';
 
 	for (var i = 0; i < 12; i++)
@@ -100,6 +103,7 @@ var matrix_table_maker = function (matrix_arr_in, isLetterNames) {
 		ret_table += '<td row="11" class="clickable" column="' + j.toString()+'">' + pcint_to_char(matrix_arr_in[11][j], isLetterNames) + "</td> ";
 	}
 	ret_table += "</tr></table>";
+
 
 	return ret_table;
 };
@@ -158,6 +162,7 @@ var row_arr_maker = function (row_in, isPcInts) {
 			{
 				row_arr[i] = pc_to_int(row_in[i]);
 				agg_arr[pc_to_int(row_in[i])] = 1;
+				//				ret_matrix += row_arr[i] + ", ";
 			}
 			else if (agg_arr[pc_to_int(row_in[i])] == 1) {ret_row = "You duplicated one or more pitch classes"; break;}
 		}
@@ -217,15 +222,18 @@ var IH_combo_process = function (row_arr_in) {
 	var ret_ans = 3;
 
 	var string = "";
+  //  alert (hex_A_inv_as_int);
 
 	for (var i = 0; i <= 11; i++)
 	{
+		//temp_reg = (hex_A_as_int<<i)%4095;
 		temp_inv = (hex_A_inv_as_int<<i)%4095;
 
 		if ((temp_inv == hex_A_complement_as_int) || (temp_inv == hex_A_as_int) )/*checks whether hexachord TnIs onto complement or self; if yes, it's IH-combinatorial or RIH-combinatorial*/
 	{ret_ans = 1; break;}
 		else {ret_ans = 0;}
 	}
+ //   alert (hex_A_inv_as_int);
 	if (ret_ans == 0) {
     for (var i = 0; i <= 11; i++)
     {
@@ -266,6 +274,7 @@ var make_areas_process = function (row_in) {
 	var Tns_of_P = new Array();
 	var Tns_of_R = new Array();
 	var Tns_of_RI = new Array();
+	//var H_combo_vals = new Array();
 	var ret_array = new Array();
 
 	for (var i = 0; i < 6; i++) {hex_A_inv_as_int += 1<<((12 - row_in[i])%12); hex_A_as_int += 1<<row_in[i];}
@@ -285,7 +294,12 @@ var make_areas_process = function (row_in) {
 		if ( (temp_reg == hex_A_as_int) && (i != 0)) {Tns_of_R[l] = i; l++;}
 		if (temp_inv == hex_A_as_int) {Tns_of_RI[m] = i; m++;}
 	}
+
+//	H_combo_vals[0] = Tns_of_I; H_combo_vals[1] = Tns_of_P;
+
 	ret_array = make_areas (row_in, Tns_of_I, Tns_of_P, Tns_of_R, Tns_of_RI);
+
+
 	return ret_array;
 };
 
@@ -312,6 +326,7 @@ var make_areas = function (row_in, Tns_of_I, Tns_of_P, Tns_of_R, Tns_of_RI) {
 
     var lengths_of_Tns = [Tns_of_I.length, Tns_of_P.length, Tns_of_R.length, Tns_of_RI.length];
     lengths_of_Tns.sort();
+ //   alert (lengths_of_Tns[3]);
 
 	for (var i = 0; i < lengths_of_Tns[3]; i++)
 	{
@@ -364,6 +379,7 @@ var make_areas_table = function (row_in, I_forms, P_forms, R_forms, RI_forms) {
 
 	var lengths_of_Tns = [I_forms.length, P_forms.length, R_forms.length, RI_forms.length];
     lengths_of_Tns.sort();
+//    alert (lengths_of_Tns[3]);
     var x = 12 / (lengths_of_Tns[3] + P_forms.length);
 	var temp_str = "";
 
@@ -561,6 +577,8 @@ function tableHandler(isLetterNames)  {
 				var temp = $("td").filter(function() {
 					return $(this).attr(attribute) == i.toString();
 				});
+				//console.log(temp);
+
 				var theArray = getLocationsOfSegment (temp, nowBolded, i, sortedString, isLetterNames);
 				if (theArray.length > 0) {
 					attributeOps = attributeOps.concat(theArray);
@@ -592,6 +610,7 @@ export default Component.extend({
 	isLetterNames: false,
   actions: {
     twelveByMatrix() {
+			//console.log(Ember.$('input[name="isPcInts"]:checked').val());
 			this.set('isLetterNames', ($('input[name="isLetterNames"]:checked').val()) == 'true');
       var row = this.$("#row").val();
       var matrix = make_matrix(row, this.isLetterNames);
@@ -602,6 +621,7 @@ export default Component.extend({
 			this.set('twelveByMatrixIsVisible', true);
 			this.$("#twelve-by-matrix").css('display', 'inline-block')
 			this.$("#twelve-by-target").html(matrix);
+			//radioButtonHandler();
 			tableHandler(this.isLetterNames);
     },
 		hexAreas() {
