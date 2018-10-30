@@ -48,6 +48,10 @@ a.tool-tip {
   }
 }
 
+.institution-fill {
+  fill:$institution-color;
+}
+
 .center {
   text-align: center;
 }
@@ -260,9 +264,6 @@ div.aRow {
 }
 a.expand {
   @extend .tool-tip;
-  //font-size: 2em;
-  margin-top: -3em;
-  //line-height: .25em;
   &:hover {
     text-decoration: none
   }
@@ -387,9 +388,7 @@ span.flat {
     content: "\266d";
   }
 }
-.rotated {
-  display: inline-block;
-  //margin-top: -1em;
-  padding-top: .25em;
-  -webkit-transform: rotate(-180deg);
+
+.minusSvg {
+  display: none;
 }
