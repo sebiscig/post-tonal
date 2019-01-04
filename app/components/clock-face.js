@@ -128,7 +128,7 @@ export default Component.extend({
 	},
   didInsertElement() {
 
-    drawClockFace(parseInt(this.get('cardinality')));
+    drawClockFace(parseInt(this.cardinality));
     $("g.dotGroup, g#labels text, g#pc-lines line").on('click', function() {
       var circleSelector = "g#pc-circles g#" + $(this).attr('id') + ' circle.pc-dot';
 			var errorSelector = "g#pc-circles g#" + $(this).attr('id') + ' circle.error-circle';
@@ -138,9 +138,9 @@ export default Component.extend({
       $theDot.css('display', newDisplay);
 			$(errorSelector).css('display', 'none')
     });
-		this.set('interaction', this.get('theInteraction'));
+		this.set('interaction', this.theInteraction);
 		this.set('buttonLabel',this.buttonLabels[this.interaction]);
-		this.set('root',this.get('root'));
+		this.set('root',this.root);
   },
   actions: {
 		setPcs() {
@@ -199,7 +199,7 @@ export default Component.extend({
 		clockSubcomponent(action, params) {
 			this.send(action, params)
 		}, showAnswer(answer){
-			var thePromptPcs = this.get('pcs');
+			var thePromptPcs = this.pcs;
 			var $highlightedPcs = getHighlightedPcs ()
 
 			var $wrongHighlights = $highlightedPcs.filter(function() {

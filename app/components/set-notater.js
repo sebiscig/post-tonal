@@ -38,10 +38,10 @@ var updateSvg = function (lengthIn) {
 export default Component.extend({
   tagName: '',
   didInsertElement() {
-    updateSvg(this.get('length'));
+    updateSvg(this.length);
   },
   didUpdateAttrs() {
-    this.send('displaySet', this.get('theSet'));
+    this.send('displaySet', this.theSet);
   },
   actions: {
     displaySet(setIn) {

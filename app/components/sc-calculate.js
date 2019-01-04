@@ -308,7 +308,7 @@ export default Component.extend({
   tagName:  '',
   pcsEntered: [],
   didUpdateAttrs(){
-    this.set('pcsEntered', this.get('thePcs'));
+    this.set('pcsEntered', this.thePcs);
   },
   actions: {
     main(feature) {
@@ -316,11 +316,11 @@ export default Component.extend({
     }, calculator () {
       this.sendAction('action', 'setPcs');
 
-      var theSC =  SC_calculate(this.get('thePcs')());
+      var theSC =  SC_calculate(this.thePcs());
       this.sendAction('action', 'showTheSC', theSC)
 
     }, quizzer() {
-      var theSC =  SC_calculate(this.get('thePcs')());
+      var theSC =  SC_calculate(this.thePcs());
       this.sendAction('action', 'showAnswer', theSC)
     }
   }
