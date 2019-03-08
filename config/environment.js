@@ -6,7 +6,7 @@ module.exports = function(environment) {
     environment,
     rootURL: '/',
     locationType: 'auto',
-    blacklistedRows : [],
+    blacklistedRows : ['7436152et098','8975e423t106'],
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
