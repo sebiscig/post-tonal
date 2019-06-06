@@ -20,9 +20,9 @@
   </div>
   <p>Click a cardinality to get started.<sup><a class="tool-tip" data-toggle="modal" data-target="#prime-form-quizzer-tip">{{fa-icon 'info-circle'}}</a></sup></p>
 <div id="set-generator">
-    {{#set-generator action="quizzerSubcomponent"}}
+    {{#set-generator sendSet=(action "fetchSet")}}
     {{/set-generator}}
-    {{#set-notater theSet=currentSet length=6}}
+    {{#set-notater theSet=currentSet length=6 display=(action "plotSet") }}
     {{/set-notater}}
 </div>
 

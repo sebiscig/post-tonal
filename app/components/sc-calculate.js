@@ -311,8 +311,16 @@ export default Component.extend({
     this.set('pcsEntered', this.thePcs);
   },
   actions: {
-    main(feature) {
-      this.send(feature)
+    main() {
+      if (this.feature == 'calculator') {
+        this.pcsAreSet();
+        var theSC = SC_calculate(this.getPcs());
+        this.showSC(theSC);
+      } else if (this.feature == 'quizzer') {
+        var thePcs = this.getPcs();
+        var theAnswer = (thePcs[0].length == 2 )  ? intervalCalculate(thePcs) : SC_calculate(thePcs);
+        this.revealAnswer(theAnswer);
+      }
     }, calculator () {
       this.sendAction('action', 'setPcs');
 

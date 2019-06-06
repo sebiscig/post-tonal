@@ -19,7 +19,7 @@
           <span aria-hidden="true"> {{fa-icon 'times'}}</span>
         </button>
 
-          {{#clock-face cardinality='12' interactive=true action="handleSubcomponents" theInteraction=interaction root=startingPointDirection}}
+          {{#clock-face cardinality='12' interactive=true theInteraction=interaction root=startingPointDirection}}
           {{/clock-face}}
           <button type="button" class="btn btn-default serial-close btm-close" {{action 'toggleVisibilities' ''}}>Close</button><br />
       </div>

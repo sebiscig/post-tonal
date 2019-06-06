@@ -41,7 +41,7 @@ export default Component.extend({
     updateSvg(this.length);
   },
   didUpdateAttrs() {
-    this.send('displaySet', this.theSet);
+    this.display(this.theSet);
   },
   actions: {
     displaySet(setIn) {

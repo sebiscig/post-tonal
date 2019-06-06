@@ -196,9 +196,7 @@ export default Component.extend({
     toggleVisibility() {
       this.sendAction('action', 'toggleVisibilities', '');
     },
-		clockSubcomponent(action, params) {
-			this.send(action, params)
-		}, showAnswer(answer){
+		showAnswer(answer){
 			var thePromptPcs = this.pcs;
 			var $highlightedPcs = getHighlightedPcs ()
 

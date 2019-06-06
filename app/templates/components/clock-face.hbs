@@ -1,7 +1,7 @@
 {{yield}}
 <div>
 {{#if interactive}}
-    {{#sc-calculate action="clockSubcomponent" feature=interaction theLabel=buttonLabel class="app-btn" thePcs=(action 'passPcs')}}
+    {{#sc-calculate feature=interaction theLabel=buttonLabel class="app-btn" pcsAreSet=(action "setPcs") getPcs=(action "passPcs") showSC=(action "showTheSC") revealAnswer=(action "showAnswer")}}
     {{/sc-calculate}}
 {{/if}}
 
@@ -20,8 +20,8 @@
   <div>
     {{#if interactive}}
 
-        {{#sc-calculate action="clockSubcomponent" feature=interaction theLabel=buttonLabel class="app-btn" thePcs=(action 'passPcs')}}
-        {{/sc-calculate}}
+      {{#sc-calculate feature=interaction theLabel=buttonLabel class="app-btn" pcsAreSet=(action "setPcs") getPcs=(action "passPcs") showSC=(action "showTheSC") revealAnswer=(action "showAnswer")}}
+      {{/sc-calculate}}
     {{/if}}
 
 </div>

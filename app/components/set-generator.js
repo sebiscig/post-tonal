@@ -23,7 +23,7 @@ export default Component.extend({
         shuffled[setSize] = temp;
       }
         this.set('theSet',shuffled.slice(min));
-        this.sendAction('action', 'setPcSet', this.theSet);
+        this.sendSet(this.theSet);
     }
   }
 });
