@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import $ from 'jquery';
+import jQuery from 'jquery';
 
 /*=============== Helper Function ===============*/
 var updateSvg = function (lengthIn) {
@@ -20,12 +20,12 @@ var updateSvg = function (lengthIn) {
     theGroup.setAttribute('transform', translate);
     $noteGroups.appendChild(theGroup);
   }
-  var staffLines = $('.staffLines');
+  var staffLines = jQuery('.staffLines');
   var baseD = staffLines.attr('d').toString();
   var lengthOfLineToReplace = parseFloat(baseD.split(' M')[0].split('h')[1]);
   var newLength =parseFloat(20.5*(i+1)).toString();
   var newD = baseD.split('h'+lengthOfLineToReplace).join('h'+newLength);
-  var $theSvg = $('div#notaterWrapper svg');
+  var $theSvg = jQuery('div#notaterWrapper svg');
   var theNewViewBox = $theSvg.attr('viewBox').replace(lengthOfLineToReplace, newLength)
   $theSvg.attr('viewBox', theNewViewBox);
 
@@ -45,10 +45,10 @@ export default Component.extend({
   },
   actions: {
     displaySet(setIn) {
-      $("g.note").css('display', 'none')
+      jQuery("g.note").css('display', 'none')
       for (var i = 0; i < setIn.length; i++){
         var selector = "g#_"+ i.toString() + '.noteGroup g#_' + setIn[i] +'.note';
-        $(selector).css('display', 'block')
+        jQuery(selector).css('display', 'block')
       }
     }
   }

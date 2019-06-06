@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import $ from 'jquery';
+import jQuery from 'jquery';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
@@ -210,34 +210,34 @@ var setIntervalSum  = function (setIn) {
 
 /*=================================================================*/
 var primeFormHandlers = function (){
-	$('span.scRep').on('click', function() {
-		var $member = $(this).parent().find('span.members');
+	jQuery('span.scRep').on('click', function() {
+		var $member = jQuery(this).parent().find('span.members');
 
 		if ($member.css('display') == 'none') {
 			$member.css('display', 'inline');
-			$(this).addClass('focus');
+			jQuery(this).addClass('focus');
 		} else {
 			$member.css('display', 'none');
-			$(this).removeClass('focus');
+			jQuery(this).removeClass('focus');
 		}
 	});
-	$('a.expand').on('click', function() {
-		var active = $(this).hasClass('activated');
-		var selector = 'div#card-' + $(this).attr('card').toString();
-		var $members = $(selector).find('span.members');
-		var $primeForms = $(selector).find('span.scRep');
+	jQuery('a.expand').on('click', function() {
+		var active = jQuery(this).hasClass('activated');
+		var selector = 'div#card-' + jQuery(this).attr('card').toString();
+		var $members = jQuery(selector).find('span.members');
+		var $primeForms = jQuery(selector).find('span.scRep');
 		if (active) {
-			$(this).removeClass('activated');
+			jQuery(this).removeClass('activated');
 			$members.css('display', 'none');
 			$primeForms.removeClass('focus');
-			$(this).find('span.minusSvg').css('display', 'none');
-			$(this).find('span.plusSvg').css('display', 'inline-block');
+			jQuery(this).find('span.minusSvg').css('display', 'none');
+			jQuery(this).find('span.plusSvg').css('display', 'inline-block');
 		} else {
-			$(this).addClass('activated');
+			jQuery(this).addClass('activated');
 			$members.css('display', 'inline-block');
 			$primeForms.addClass('focus');
-			$(this).find('span.minusSvg').css('display', 'inline-block');
-			$(this).find('span.plusSvg').css('display', 'none	');
+			jQuery(this).find('span.minusSvg').css('display', 'inline-block');
+			jQuery(this).find('span.plusSvg').css('display', 'none	');
 		}
 	});
 };
@@ -250,7 +250,7 @@ export default Component.extend({
 		var infoWidth = parseFloat(faInfoCircle.icon[0]*0.04).toString() + 'px';
 		var display = '<p>List of prime forms<sup><a class="tool-tip small" data-toggle="modal" data-target="#prime-form-list-tip"><svg style="width: '+ infoWidth +'" viewbox="0 0 '+ faInfoCircle.icon[0] + ' ' + faInfoCircle.icon[1] +'"><path class="institution-fill" d="' + faInfoCircle.icon[4]+'"></path</svg></a></sup> for trichords through nonachords.</p>',
     display = display + answer;
-    $("#prime-form-list-target").html(display);
+    jQuery("#prime-form-list-target").html(display);
     primeFormHandlers();
   },
   actions: {

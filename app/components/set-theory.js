@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import $ from 'jquery';
+import jQuery from 'jquery';
 
 /*=================================================================*/
 
@@ -13,13 +13,13 @@ export default Component.extend({
 	startingPointDirection: false,
   actions: {
     hide(id) {
-			this.$("#"+id).css('display', 'none');
+			this.jQuery("#"+id).css('display', 'none');
 			var target = '#' + id.substr(0, id.lastIndexOf('-')+1) + 'target';
-			this.$(target).html('');
+			this.jQuery(target).html('');
 			id == 'twelve-by-matrix' ? this.set('twelveByMatrixIsVisible', false) : this.set('hexAreasIsVisible', false);
 			if ((!this.twelveByMatrixIsVisible) && (!this.hexAreasIsVisible)) {
 				this.set('serialStuffIsVisible', false);
-				this.$("#serial-stuff").css('display', 'none');
+				this.jQuery("#serial-stuff").css('display', 'none');
 			}
 		},
 		handleSubcomponents(action, params) {

@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import $ from 'jquery';
+import jQuery from 'jquery';
 import config from 'post-tonal/config/environment';
 
 var make_matrix = function (row_in, isLetterNames) {
@@ -462,10 +462,10 @@ var getAttribute = function (boldedCellsIn) {
 	var theColumn = boldedCellsIn.first().attr('column');
 	var theRow = boldedCellsIn.first().attr('row');
 	var colCount = boldedCellsIn.filter(function () {
-		return $(this).attr('column') == theColumn;
+		return jQuery(this).attr('column') == theColumn;
 	}).length;
 	var rowCount = boldedCellsIn.filter(function () {
-		return $(this).attr('row') == theRow;
+		return jQuery(this).attr('row') == theRow;
 	}).length;
 	return colCount > rowCount ? 'column' : 'row';
 };
@@ -476,7 +476,7 @@ var getLocationsOfSegment = function (rowIn, nowBoldedIn, indexIn, sortedStringI
 	var ops = [];
 	var tempString = '';
 	rowIn.each(function () {
-		tempString += isLetterNames ? letterToPcInt($(this).html().toString()): $(this).text();
+		tempString += isLetterNames ? letterToPcInt(jQuery(this).html().toString()): jQuery(this).text();
 	});
 	for (var i = 0; i < 13 - nowBoldedIn.length; i++) {
 		var segment = '';
@@ -497,8 +497,8 @@ var addTheClass = function (opsArrayIn, nowBoldedIn, attributeIn, otherAttribute
 	for (var j = 0; j < opsArrayIn.length; j++) {
 		var array = opsArrayIn[j];
 		for (var i = parseInt(array[1]); i < parseInt(array[1]) + nowBoldedIn.length; i++) {
-			var entry = $("td").filter(function() {
-				return (($(this).attr(attributeIn) == array[0]) && ($(this).attr(otherAttributeIn) == i.toString()));
+			var entry = jQuery("td").filter(function() {
+				return ((jQuery(this).attr(attributeIn) == array[0]) && (jQuery(this).attr(otherAttributeIn) == i.toString()));
 			});
 			entry.addClass(classToAdd);
 		}
@@ -508,47 +508,47 @@ var addTheClass = function (opsArrayIn, nowBoldedIn, attributeIn, otherAttribute
 /*=================================================================*/
 
 function tableHandler(isLetterNames)  {
-	$("#twelve-by-matrix td.clickable").on('click', function() {
+	jQuery("#twelve-by-matrix td.clickable").on('click', function() {
 
-		var boldedCells = $("td").filter(function (){
-			return $(this).hasClass('bold');
+		var boldedCells = jQuery("td").filter(function (){
+			return jQuery(this).hasClass('bold');
 		});
 
-		var that = $(this);
+		var that = jQuery(this);
 		if (boldedCells.length == 0) {
-			$(this).addClass('bold');
+			jQuery(this).addClass('bold');
 		} else if (boldedCells.length == 1) {
-			var currentColumn = parseInt($(this).attr('column'));
+			var currentColumn = parseInt(jQuery(this).attr('column'));
 			var firstColumn = parseInt(boldedCells.first().attr('column'));
-			var currentRow =  parseInt($(this).attr('row'));
+			var currentRow =  parseInt(jQuery(this).attr('row'));
 			var firstRow = parseInt(boldedCells.first().attr('row'));
 			if ( ((currentColumn == firstColumn) && (Math.abs(currentRow - firstRow) == 1)) || ((currentRow == firstRow) && (Math.abs(currentColumn - firstColumn) == 1))) {
-				$(this).addClass('bold');
+				jQuery(this).addClass('bold');
 			}
 		}	else {
 
 			var attribute = getAttribute (boldedCells);
 			var otherAttribute = attribute == 'column' ? 'row' : 'column';
-			var clickedAttr = parseInt($(this).attr(attribute));
-			var clickedOtherAttr = parseInt($(this).attr(otherAttribute));
-			if ($(this).attr(attribute) != boldedCells.first().attr(attribute)) {
+			var clickedAttr = parseInt(jQuery(this).attr(attribute));
+			var clickedOtherAttr = parseInt(jQuery(this).attr(otherAttribute));
+			if (jQuery(this).attr(attribute) != boldedCells.first().attr(attribute)) {
 				return;
 			} else {
 				boldedCells.each(function() {
-					var tempAttr = parseInt($(this).attr(attribute));
-					var tempOtherAttr = parseInt($(this).attr(otherAttribute));
+					var tempAttr = parseInt(jQuery(this).attr(attribute));
+					var tempOtherAttr = parseInt(jQuery(this).attr(otherAttribute));
 					if ((clickedAttr == tempAttr) && (Math.abs(tempOtherAttr - clickedOtherAttr) == 1)) {
 						that.addClass('bold');
 					}
 				});
 			}
 		}
-		var nowBolded = $("td").filter(function() {
-			return $(this).hasClass('bold');
+		var nowBolded = jQuery("td").filter(function() {
+			return jQuery(this).hasClass('bold');
 		});
 		var string = '';
 		nowBolded.each(function() {
-			string += isLetterNames ? letterToPcInt($(this).html().toString()): $(this).text();
+			string += isLetterNames ? letterToPcInt(jQuery(this).html().toString()): jQuery(this).text();
 		});
 		var sortedString = string.split('').sort().join('');
 		if (nowBolded.length > 1) {
@@ -558,16 +558,16 @@ function tableHandler(isLetterNames)  {
 			var attributeOps = [];
 			var otherAttributeOps = [];
 			for (var i = 0; i < 12; i++) {
-				var temp = $("td").filter(function() {
-					return $(this).attr(attribute) == i.toString();
+				var temp = jQuery("td").filter(function() {
+					return jQuery(this).attr(attribute) == i.toString();
 				});
 				var theArray = getLocationsOfSegment (temp, nowBolded, i, sortedString, isLetterNames);
 				if (theArray.length > 0) {
 					attributeOps = attributeOps.concat(theArray);
 				}
 
-				var tempOther = $("td").filter(function() {
-					return $(this).attr(otherAttribute) == i.toString();
+				var tempOther = jQuery("td").filter(function() {
+					return jQuery(this).attr(otherAttribute) == i.toString();
 				});
 
 				var theOtherArray = getLocationsOfSegment (tempOther, nowBolded, i, sortedString, isLetterNames);
@@ -575,8 +575,8 @@ function tableHandler(isLetterNames)  {
 					otherAttributeOps = otherAttributeOps.concat(theOtherArray);
 				}
 			}
-			$("td.highlight").removeClass('highlight');
-			$('td.other').removeClass('other');
+			jQuery("td.highlight").removeClass('highlight');
+			jQuery('td.other').removeClass('other');
 			addTheClass(attributeOps, nowBolded, attribute, otherAttribute, 'highlight');
 			addTheClass(otherAttributeOps, nowBolded, otherAttribute, attribute, 'other');
 		}
@@ -592,38 +592,38 @@ export default Component.extend({
 	isLetterNames: false,
   actions: {
     twelveByMatrix() {
-			this.set('isLetterNames', ($('input[name="isLetterNames"]:checked').val()) == 'true');
-      var row = this.$("#row").val();
+			this.set('isLetterNames', (jQuery('input[name="isLetterNames"]:checked').val()) == 'true');
+      var row = jQuery("#row").val();
       var matrix = make_matrix(row, this.isLetterNames);
 			if (!this.serialStuffIsVisible) {
 				this.toggleProperty('serialStuffIsVisible');
-				this.$("#serial-stuff").css('display', 'inline-block');
+				jQuery("#serial-stuff").css('display', 'inline-block');
 			}
 			this.set('twelveByMatrixIsVisible', true);
-			this.$("#twelve-by-matrix").css('display', 'inline-block')
-			this.$("#twelve-by-target").html(matrix);
+			jQuery("#twelve-by-matrix").css('display', 'inline-block')
+			jQuery("#twelve-by-target").html(matrix);
 			tableHandler(this.isLetterNames);
     },
 		hexAreas() {
-			var row = this.$("#row").val();
+			var row = jQuery("#row").val();
 			var hexachordalAreas = IH_combo_test(row);
 			if (!this.serialStuffIsVisible) {
 				this.toggleProperty('serialStuffIsVisible');
-				this.$("#hex-areas").css('display', 'inline-block')
-				this.$("#serial-stuff").css('display', 'inline-block')
+				jQuery("#hex-areas").css('display', 'inline-block')
+				jQuery("#serial-stuff").css('display', 'inline-block')
 			}
 			this.set('hexAreasIsVisible', true);
-			this.$("#hex-areas").css('display', 'inline-block')
-			this.$("#hex-target").html(hexachordalAreas);
+			jQuery("#hex-areas").css('display', 'inline-block')
+			jQuery("#hex-target").html(hexachordalAreas);
 		},
 		hide(id) {
-			this.$("#"+id).css('display', 'none');
+			jQuery("#"+id).css('display', 'none');
 			var target = '#' + id.substr(0, id.lastIndexOf('-')+1) + 'target';
-			this.$(target).html('');
+			jQuery(target).html('');
 			id == 'twelve-by-matrix' ? this.set('twelveByMatrixIsVisible', false) : this.set('hexAreasIsVisible', false);
 			if ((!this.twelveByMatrixIsVisible) && (!this.hexAreasIsVisible)) {
 				this.set('serialStuffIsVisible', false);
-				this.$("#serial-stuff").css('display', 'none');
+				jQuery("#serial-stuff").css('display', 'none');
 			}
 		}
   }

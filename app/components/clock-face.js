@@ -1,12 +1,12 @@
 import Component from '@ember/component';
-import $ from 'jquery';
+import jQuery from 'jquery';
 
 /*================ Helper functions ================*/
 
 var getPcs = function ($pcsOnClock) {
 	var pcSet = [];
 	$pcsOnClock.each(function(){
-		pcSet.push($(this).attr('id').toString().replace('_',''));
+		pcSet.push(jQuery(this).attr('id').toString().replace('_',''));
 	});
 	return pcSet;
 };
@@ -26,8 +26,8 @@ var makePcSet = function(pcsIn) {
 
 var getHighlightedPcs = function() {
 	var dotSelector = "g#pc-circles g.dotGroup";
-	return $(dotSelector).filter(function(){
-			return $(this).find('circle.pc-dot').css('display') == 'block';
+	return jQuery(dotSelector).filter(function(){
+			return jQuery(this).find('circle.pc-dot').css('display') == 'block';
 		});
 
 };
@@ -40,10 +40,10 @@ var makePcLabel = function(pcNumber, rotation, index) {
   var theText = document.createElementNS("http://www.w3.org/2000/svg", "text");
   theG.appendChild(theText);
   theG.setAttribute('class', 'new');
-  var theLabels = $("g#labels");
+  var theLabels = jQuery("g#labels");
   theLabels.append(theG);
 
-  theG = $("g#labels").find('g.new');
+  theG = jQuery("g#labels").find('g.new');
 
   var antiRotation = 360 - rotation;
   theG.attr('transform', "rotate(" + rotation + " 405 390)");
@@ -62,7 +62,7 @@ var makePcLine = function(pcNumber, rotation) {
 
   var theLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
   theLine.setAttribute('class', 'new');
-  var theLines = $("g#pc-lines");
+  var theLines = jQuery("g#pc-lines");
   theLines.append(theLine);
 
   theLine = theLines.find('line.new');
@@ -82,7 +82,7 @@ var makePcDot = function(pcNumber, rotation) {
   theNewGroup.setAttribute('class', 'new');
 	theNewGroup.appendChild(theDot);
 	theNewGroup.appendChild(theErrorCircle);
-  var theDots = $("g#pc-circles");
+  var theDots = jQuery("g#pc-circles");
   theDots.append(theNewGroup);
 	theNewGroup = theDots.find('g.new');
   theDot = theNewGroup.find('circle.pc-dot');
@@ -121,22 +121,22 @@ export default Component.extend({
 	didUpdateAttrs(){
 
 		if (this.interaction=='quizzer') {
-			$('g#pc-circles circle').css('display', 'none');
-			$("#textline-0").text('');
-			$("#textline-1").text('');
+			jQuery('g#pc-circles circle').css('display', 'none');
+			jQuery("#textline-0").text('');
+			jQuery("#textline-1").text('');
 		}
 	},
   didInsertElement() {
 
     drawClockFace(parseInt(this.cardinality));
-    $("g.dotGroup, g#labels text, g#pc-lines line").on('click', function() {
-      var circleSelector = "g#pc-circles g#" + $(this).attr('id') + ' circle.pc-dot';
-			var errorSelector = "g#pc-circles g#" + $(this).attr('id') + ' circle.error-circle';
-      var $theDot = $(circleSelector);
+    jQuery("g.dotGroup, g#labels text, g#pc-lines line").on('click', function() {
+      var circleSelector = "g#pc-circles g#" + jQuery(this).attr('id') + ' circle.pc-dot';
+			var errorSelector = "g#pc-circles g#" + jQuery(this).attr('id') + ' circle.error-circle';
+      var $theDot = jQuery(circleSelector);
 
       var newDisplay = $theDot.css('display') == 'none' ? 'block' : 'none';
       $theDot.css('display', newDisplay);
-			$(errorSelector).css('display', 'none')
+			jQuery(errorSelector).css('display', 'none')
     });
 		this.set('interaction', this.theInteraction);
 		this.set('buttonLabel',this.buttonLabels[this.interaction]);
@@ -156,11 +156,11 @@ export default Component.extend({
     },
 		showTheSC(setInfo){
 			if (setInfo.set == "{undefined}") {
-				$("#textline-0").text('No pcs on clock face...');
-				$("#textline-1").text('Add some by clicking around');
+				jQuery("#textline-0").text('No pcs on clock face...');
+				jQuery("#textline-1").text('Add some by clicking around');
 			} else {
-				$("#textline-0").text('set ' + setInfo.set + ',');
-				$("#textline-1").text('prime form ' + setInfo.sc);
+				jQuery("#textline-0").text('set ' + setInfo.set + ',');
+				jQuery("#textline-1").text('prime form ' + setInfo.sc);
 
 				if (this.root) {
 					var theRoots = '';
@@ -176,22 +176,22 @@ export default Component.extend({
 						var theTSpan = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
 						theTSpan.setAttribute('class', 'new subscript');
 
-						$("#textline-1").append(theTSpan);
-						$("#textline-1 tspan.new").html(theRoots);
-						$("#textline-1 tspan.new").removeClass('new');
+						jQuery("#textline-1").append(theTSpan);
+						jQuery("#textline-1 tspan.new").html(theRoots);
+						jQuery("#textline-1 tspan.new").removeClass('new');
 				}
 			}
 		},
 		showSet(set) {
 			var prettySet = 'set {' + set.split('').join(', ') + '}';
 			var circlesSelector = "g#pc-circles circle";
-			$("g#pc-circles circle").css('display', 'none');
+			jQuery("g#pc-circles circle").css('display', 'none');
 			for (var i=0; i < set.length; i++) {
 				var selector = circlesSelector + "#_"+set[i];
-				$(selector).css('display', 'block');
+				jQuery(selector).css('display', 'block');
 			}
-			$("#textline-1").text('');
-			$("#textline-0").text(prettySet);
+			jQuery("#textline-1").text('');
+			jQuery("#textline-0").text(prettySet);
 		},
     toggleVisibility() {
       this.sendAction('action', 'toggleVisibilities', '');
@@ -203,19 +203,19 @@ export default Component.extend({
 			var $highlightedPcs = getHighlightedPcs ()
 
 			var $wrongHighlights = $highlightedPcs.filter(function() {
-				return !thePromptPcs.includes($(this).attr('id').replace('_', ''));
+				return !thePromptPcs.includes(jQuery(this).attr('id').replace('_', ''));
 			});
 			if (this.pcs.length == 0) {
-				$("#textline-0").text('Nothing to check: click ');
-				$("#textline-1").text('"Trichord" etc. first.');
+				jQuery("#textline-0").text('Nothing to check: click ');
+				jQuery("#textline-1").text('"Trichord" etc. first.');
 			} else if (($wrongHighlights.length == 0) && ($highlightedPcs.length == this.pcs.length)) {
 				this.send('showTheSC', answer);
 			} else if ($highlightedPcs.length < this.pcs.length) {
-				$("#textline-0").text('Can\'t check yet: set not fully');
-				$("#textline-1").text('notated on the clockface');
+				jQuery("#textline-0").text('Can\'t check yet: set not fully');
+				jQuery("#textline-1").text('notated on the clockface');
 			} else if ($wrongHighlights.length > 0){
-				$("#textline-0").text('Error(s) in your integer notation');
-				$("#textline-1").text('Mistake(s) circled');
+				jQuery("#textline-0").text('Error(s) in your integer notation');
+				jQuery("#textline-1").text('Mistake(s) circled');
 				$wrongHighlights.find('circle.error-circle').css('display', 'block');
 			}
 		}
