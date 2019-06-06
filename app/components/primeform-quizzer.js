@@ -5,7 +5,7 @@ export default Component.extend({
   currentSet: [],
   actions: {
     plotSet(setIn) {
-      jQuery("div#set g.note").css('display', 'none');
+      jQuery("g.note").css('display', 'none');
       for (var i = 0; i < setIn.length; i++) {
         var selector = "g#_"+ i.toString() + '.noteGroup g#_' + setIn[i] +'.note';
         jQuery(selector).css('display', 'block')
